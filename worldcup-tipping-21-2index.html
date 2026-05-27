@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 — Tipping Comp</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #CC1122; --gold: #CC1122;
+    --bg: #ffffff; --bg2: #f7f7f7; --bg3: #f0f0f0;
+    --border: rgba(0,0,0,0.08);
+    --text: #111111; --muted: rgba(17,17,17,0.45);
+  }
+  html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
+  body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; line-height: 1.6; }
+
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1.5rem 4rem; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(204,17,34,0.08) 0%, transparent 65%), repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(0,0,0,0.04) 60px, rgba(0,0,0,0.04) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(0,0,0,0.04) 60px, rgba(0,0,0,0.04) 61px); pointer-events: none; }
+  .hero-badge { display: inline-block; background: var(--green); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 14px; border-radius: 2px; margin-bottom: 1.5rem; animation: fadeUp 0.5s ease both; }
+  .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 0.92; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 0.5s 0.1s ease both; }
+  .hero h1 span { color: var(--green); }
+  .hero-sub { font-size: clamp(1rem, 2.5vw, 1.2rem); color: var(--muted); max-width: 460px; margin-bottom: 2.5rem; animation: fadeUp 0.5s 0.2s ease both; }
+  .hero-stats { display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; animation: fadeUp 0.5s 0.3s ease both; }
+  .hero-stat { text-align: center; display: flex; flex-direction: column; align-items: center; }
+  .hero-stat-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 2rem; color: var(--gold); line-height: 1; }
+  .hero-stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; text-align: center; }
+  .cta-btn { display: inline-block; background: var(--green); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 14px 36px; border-radius: 3px; text-decoration: none; border: none; cursor: pointer; transition: background 0.15s, transform 0.1s; animation: fadeUp 0.5s 0.4s ease both; }
+  .cta-btn:hover { background: #aa0011; transform: translateY(-1px); }
+
+  .countdown-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.5rem 1.5rem; text-align: center; }
+  .countdown-label { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
+  .countdown-timer { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+  .countdown-unit { display: flex; flex-direction: column; align-items: center; }
+  .countdown-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--green); line-height: 1; min-width: 80px; background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 8px 16px; text-align: center; }
+  .countdown-unit-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 6px; }
+  .countdown-sep { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 3rem; color: var(--muted); line-height: 1; padding-top: 8px; }
+  .deadline-note { margin-top: 1.2rem; font-size: 13px; color: var(--muted); }
+  .deadline-note strong { color: var(--text); }
+
+  .section { padding: 4rem 1.5rem; max-width: 960px; margin: 0 auto; }
+  .section-heading { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3rem); text-transform: uppercase; margin-bottom: 2rem; }
+  .section-heading span { color: var(--green); }
+  .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .rule-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; position: relative; overflow: hidden; }
+  .rule-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--green); }
+  .rule-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 2.5rem; color: rgba(204,17,34,0.2); line-height: 1; margin-bottom: 6px; }
+  .rule-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .rule-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  .fixtures-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .fixtures-inner { max-width: 960px; margin: 0 auto; padding: 4rem 1.5rem; }
+  .fixtures-heading { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3rem); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .fixtures-heading span { color: var(--green); }
+  .fixtures-subhead { color: var(--muted); font-size: 14px; margin-bottom: 2rem; }
+
+  .md-tabs { display: flex; gap: 8px; margin-bottom: 2rem; flex-wrap: wrap; }
+  .md-tab { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 20px; border: 1px solid var(--border); border-radius: 3px; background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .md-tab:hover { color: var(--text); }
+  .md-tab.active { background: var(--green); color: #fff; border-color: var(--green); }
+  .md-tab.locked { opacity: 0.35; cursor: not-allowed; pointer-events: none; border-style: dashed; }
+
+  .date-group { margin-bottom: 2rem; }
+  .date-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); padding-bottom: 8px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+  .fixture-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--bg3); border: 1px solid var(--border); border-radius: 5px; margin-bottom: 6px; flex-wrap: wrap; }
+  .fixture-group-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(204,17,34,0.08); color: #8a0a14; border: 1px solid rgba(204,17,34,0.2); border-radius: 3px; padding: 2px 7px; flex-shrink: 0; }
+  .fixture-teams { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; text-transform: uppercase; flex: 1; }
+  .fixture-meta { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+  .md-panel { display: none; }
+  .md-panel.active { display: block; }
+
+  .form-section { border-top: 1px solid var(--border); }
+  .form-inner { max-width: 700px; margin: 0 auto; padding: 4rem 1.5rem; }
+  .form-heading { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(2rem, 5vw, 3rem); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .form-heading span { color: var(--green); }
+  .form-subheading { color: var(--muted); font-size: 14px; margin-bottom: 2rem; }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+  .form-group input, .form-group select { width: 100%; background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; color: var(--text); font-family: 'Barlow', sans-serif; font-size: 15px; padding: 11px 14px; outline: none; transition: border-color 0.15s; appearance: none; -webkit-appearance: none; }
+  .form-group input:focus, .form-group select:focus { border-color: var(--green); } input, select, textarea { -webkit-appearance: none; border-radius: 4px; font-size: 16px; }
+
+  .form-md-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .form-md-tab { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; padding: 7px 16px; border: 1px solid var(--border); border-radius: 3px; background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .form-md-tab:hover { color: var(--text); }
+  .form-md-tab.active { background: var(--green); color: #fff; border-color: var(--green); }
+  .form-md-panel { display: none; }
+  .form-md-panel.active { display: block; }
+
+  .match-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; margin-bottom: 10px; }
+  .match-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 8px; }
+  .match-teams { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .match-date { font-size: 12px; color: var(--muted); background: rgba(255,255,255,0.05); border-radius: 3px; padding: 3px 8px; }
+  .match-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .match-inputs label { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 5px; }
+  .score-inputs { display: flex; align-items: center; gap: 8px; }
+  .score-inputs input { text-align: center; }
+
+  .bubble-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .bubble { display: inline-flex; align-items: center; justify-content: center; padding: 9px 14px; border: 1px solid var(--border); border-radius: 50px; font-size: 12px; font-weight: 600; font-family: 'Barlow', sans-serif; color: var(--muted); background: var(--bg3); cursor: pointer; transition: all 0.15s; user-select: none; white-space: nowrap; touch-action: manipulation; -webkit-tap-highlight-color: transparent; min-height: 44px; }
+  .bubble:hover { border-color: var(--green); color: var(--text); }
+  .bubble.selected { background: var(--green); border-color: var(--green); color: #fff; }
+  .bubble.locked-bubble { opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+  .score-sep { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--muted); flex-shrink: 0; }
+  .matches-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--green); margin-bottom: 1rem; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .submit-btn { width: 100%; background: var(--green); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 1.5rem; transition: background 0.15s, transform 0.1s; touch-action: manipulation; -webkit-tap-highlight-color: transparent; min-height: 52px; }
+  .submit-btn:hover { background: #aa0011; }
+  .buyin-notice { display: flex; align-items: flex-start; gap: 10px; background: rgba(255,214,0,0.07); border: 1px solid rgba(255,214,0,0.2); border-radius: 5px; padding: 12px 16px; margin-bottom: 2rem; font-size: 14px; }
+  .buyin-notice strong { color: var(--gold); }
+  .success-state { display: none; text-align: center; padding: 3rem 1rem; }
+  .success-state h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .success-state p { color: var(--muted); font-size: 15px; }
+  .closed-notice { display: none; background: rgba(255,50,50,0.08); border: 1px solid rgba(255,50,50,0.25); border-radius: 5px; padding: 12px 16px; font-size: 14px; color: #ff6b6b; margin-bottom: 1.5rem; text-align: center; }
+
+  footer { text-align: center; padding: 2rem 1.5rem; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
+
+  .field-error input { border: 1px solid #CC1122 !important; }
+  .field-error-label { color: #f87171 !important; }
+  .field-error-label::after { content: ' *'; color: #CC1122; font-weight: 700; }
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; }
+  .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; max-width: 420px; width: calc(100% - 3rem); margin: auto; padding: 2rem; box-shadow: 0 24px 60px rgba(0,0,0,0.4); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000; max-height: 90vh; overflow-y: auto; }
+  .modal-icon { font-size: 2.5rem; text-align: center; margin-bottom: 1rem; }
+  .modal-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.6rem; text-transform: uppercase; text-align: center; margin-bottom: 0.5rem; color: var(--text); }
+  .modal-body { font-size: 14px; color: var(--muted); text-align: center; line-height: 1.6; margin-bottom: 1.5rem; }
+  .modal-body strong { color: var(--text); }
+  .modal-missing { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.2rem; }
+  .modal-missing-item { background: var(--bg3); border: 1px solid rgba(204,17,34,0.2); border-radius: 5px; padding: 8px 14px; font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+  .modal-missing-item::before { content: '⚠️'; font-size: 14px; }
+  .modal-btns { display: flex; flex-direction: column; gap: 8px; }
+  .modal-btn-go-back { background: var(--green); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 12px; border: none; border-radius: 4px; cursor: pointer; width: 100%; }
+  .modal-btn-submit-anyway { background: transparent; color: var(--muted); font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; padding: 10px; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; width: 100%; }
+  .modal-btn-submit-anyway:hover { color: var(--text); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (max-width: 480px) { .match-inputs { grid-template-columns: 1fr; } .countdown-sep { display: none; } }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-badge">⚽ Official Tipping Comp — World Cup 2026</div>
+  <h1>Tip.<br><span>Win.</span><br>Repeat.</h1>
+  <p class="hero-sub">Get your tips in before the deadline. 1 point for the correct result, 1 bonus point for the exact score.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="hero-stat-val">$50</div><div class="hero-stat-label">Buy-in</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">50%</div><div class="hero-stat-label">Winner takes</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">2pts</div><div class="hero-stat-label">Max per match</div></div>
+  </div>
+  <a href="#enter" class="cta-btn">Enter now →</a>
+</section>
+
+<div class="countdown-section">
+  <div class="countdown-label" id="countdown-label">Matchday 1 tips close in</div>
+  <div class="countdown-timer">
+    <div class="countdown-unit"><div class="countdown-num" id="cd-days">--</div><div class="countdown-unit-label">Days</div></div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-unit"><div class="countdown-num" id="cd-hours">--</div><div class="countdown-unit-label">Hours</div></div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-unit"><div class="countdown-num" id="cd-mins">--</div><div class="countdown-unit-label">Mins</div></div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-unit"><div class="countdown-num" id="cd-secs">--</div><div class="countdown-unit-label">Secs</div></div>
+  </div>
+  <div class="deadline-note">MD1 tips deadline: <strong id="deadline-display"></strong></div>
+</div>
+
+<section class="section">
+  <div class="section-heading">How it <span>works</span></div>
+  <div class="rules-grid">
+    <div class="rule-card"><div class="rule-num">01</div><div class="rule-title">Pay your $50</div><div class="rule-desc">Bank transfer to the comp organiser before submitting tips. Entry isn't locked until payment is confirmed.</div></div>
+    <div class="rule-card"><div class="rule-num">02</div><div class="rule-title">Submit your tips</div><div class="rule-desc">Pick your result for each match and predict the exact score. Tips must be in before each round deadline.</div></div>
+    <div class="rule-card"><div class="rule-num">03</div><div class="rule-title">Score points</div><div class="rule-desc">1 point for getting the result right. 1 bonus point if your exact scoreline is correct too.</div></div>
+    <div class="rule-card"><div class="rule-num">04</div><div class="rule-title">Win the pot</div><div class="rule-desc">Most points at the end wins 50% of the total pot. Tiebreaker: total goals tipped vs total goals scored.</div></div>
+  </div>
+</section>
+
+<div class="fixtures-section">
+  <div class="fixtures-inner">
+    <div class="fixtures-heading">Group stage <span>fixtures</span></div>
+    <p class="fixtures-subhead">All 48 group stage matches — 12 groups, 3 matchdays each</p>
+    <div class="md-tabs">
+      <button class="md-tab active" onclick="showMD(1)">Matchday 1</button>
+      <button class="md-tab" onclick="showMD(2)">Matchday 2</button>
+      <button class="md-tab" onclick="showMD(3)">Matchday 3</button>
+      <button class="md-tab" onclick="showMD(4)">Round of 32</button>
+      <button class="md-tab" onclick="showMD(5)">Round of 16</button>
+      <button class="md-tab" onclick="showMD(6)">Quarter-Finals</button>
+      <button class="md-tab" onclick="showMD(7)">Semi-Finals</button>
+      <button class="md-tab" onclick="showMD(8)">Final 🏆</button>
+    </div>
+
+    <div class="md-panel active" id="md-panel-1">
+      <div class="date-group"><div class="date-label">Thursday 11 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇲🇽 Mexico vs 🇿🇦 South Africa</span><span class="fixture-meta">Mexico City · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇰🇷 South Korea vs 🇨🇿 Czechia</span><span class="fixture-meta">Zapopan · 12:00pm AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Friday 12 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group B</span><span class="fixture-teams">🇨🇦 Canada vs 🇧🇦 Bosnia &amp; Herzegovina</span><span class="fixture-meta">Toronto · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇺🇸 USA vs 🇵🇾 Paraguay</span><span class="fixture-meta">Los Angeles · 11:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Saturday 13 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group B</span><span class="fixture-teams">🇶🇦 Qatar vs 🇨🇭 Switzerland</span><span class="fixture-meta">Santa Clara · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group C</span><span class="fixture-teams">🇧🇷 Brazil vs 🇲🇦 Morocco</span><span class="fixture-meta">New York/New Jersey · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group C</span><span class="fixture-teams">🇭🇹 Haiti vs 🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland</span><span class="fixture-meta">Boston · 11:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇦🇺 Australia vs 🇹🇷 Turkey</span><span class="fixture-meta">Vancouver · 2:00pm AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Sunday 14 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group E</span><span class="fixture-teams">🇩🇪 Germany vs 🇨🇼 Curaçao</span><span class="fixture-meta">Houston · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇳🇱 Netherlands vs 🇯🇵 Japan</span><span class="fixture-meta">Arlington · 6:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group E</span><span class="fixture-teams">🇨🇮 Ivory Coast vs 🇪🇨 Ecuador</span><span class="fixture-meta">Philadelphia · 9:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇸🇪 Sweden vs 🇹🇳 Tunisia</span><span class="fixture-meta">Guadalupe · 12:00pm AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Monday 15 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇪🇸 Spain vs 🇨🇻 Cabo Verde</span><span class="fixture-meta">Atlanta · 2:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇧🇪 Belgium vs 🇪🇬 Egypt</span><span class="fixture-meta">Seattle · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇸🇦 Saudi Arabia vs 🇺🇾 Uruguay</span><span class="fixture-meta">Miami · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇮🇷 IR Iran vs 🇳🇿 New Zealand</span><span class="fixture-meta">Los Angeles · 11:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Tuesday 16 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group I</span><span class="fixture-teams">🇫🇷 France vs 🇸🇳 Senegal</span><span class="fixture-meta">New York/New Jersey · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group I</span><span class="fixture-teams">🇮🇶 Iraq vs 🇳🇴 Norway</span><span class="fixture-meta">Boston · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇦🇷 Argentina vs 🇩🇿 Algeria</span><span class="fixture-meta">Kansas City · 11:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇦🇹 Austria vs 🇯🇴 Jordan</span><span class="fixture-meta">Santa Clara · 2:00pm AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Wednesday 17 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇵🇹 Portugal vs 🇨🇩 DR Congo</span><span class="fixture-meta">Houston · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group L</span><span class="fixture-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇭🇷 Croatia</span><span class="fixture-meta">Arlington · 6:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group L</span><span class="fixture-teams">🇬🇭 Ghana vs 🇵🇦 Panama</span><span class="fixture-meta">Toronto · 9:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇺🇿 Uzbekistan vs 🇨🇴 Colombia</span><span class="fixture-meta">Mexico City · 12:00pm AEST</span></div>
+      </div>
+    </div>
+
+    <div class="md-panel" id="md-panel-2">
+      <div class="date-group"><div class="date-label">Thursday 18 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇨🇿 Czechia vs 🇿🇦 South Africa</span><span class="fixture-meta">Atlanta · 2:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group B</span><span class="fixture-teams">🇨🇭 Switzerland vs 🇧🇦 Bosnia &amp; Herzegovina</span><span class="fixture-meta">Los Angeles · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group B</span><span class="fixture-teams">🇨🇦 Canada vs 🇶🇦 Qatar</span><span class="fixture-meta">Vancouver · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇲🇽 Mexico vs 🇰🇷 South Korea</span><span class="fixture-meta">Zapopan · 11:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Friday 19 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇺🇸 USA vs 🇦🇺 Australia</span><span class="fixture-meta">Seattle · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group C</span><span class="fixture-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland vs 🇲🇦 Morocco</span><span class="fixture-meta">Boston · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group C</span><span class="fixture-teams">🇧🇷 Brazil vs 🇭🇹 Haiti</span><span class="fixture-meta">Philadelphia · 10:30am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇹🇷 Turkey vs 🇵🇾 Paraguay</span><span class="fixture-meta">Santa Clara · 1:00pm AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Saturday 20 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇳🇱 Netherlands vs 🇸🇪 Sweden</span><span class="fixture-meta">Houston · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group E</span><span class="fixture-teams">🇩🇪 Germany vs 🇨🇮 Ivory Coast</span><span class="fixture-meta">Toronto · 6:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group E</span><span class="fixture-teams">🇪🇨 Ecuador vs 🇨🇼 Curaçao</span><span class="fixture-meta">Kansas City · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇹🇳 Tunisia vs 🇯🇵 Japan</span><span class="fixture-meta">Guadalupe · 2:00pm AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Sunday 21 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇪🇸 Spain vs 🇸🇦 Saudi Arabia</span><span class="fixture-meta">Atlanta · 2:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇧🇪 Belgium vs 🇮🇷 IR Iran</span><span class="fixture-meta">Los Angeles · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇺🇾 Uruguay vs 🇨🇻 Cabo Verde</span><span class="fixture-meta">Miami · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇳🇿 New Zealand vs 🇪🇬 Egypt</span><span class="fixture-meta">Vancouver · 11:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Monday 22 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇦🇷 Argentina vs 🇦🇹 Austria</span><span class="fixture-meta">Arlington · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group I</span><span class="fixture-teams">🇫🇷 France vs 🇮🇶 Iraq</span><span class="fixture-meta">Philadelphia · 7:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group I</span><span class="fixture-teams">🇳🇴 Norway vs 🇸🇳 Senegal</span><span class="fixture-meta">New York/New Jersey · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇯🇴 Jordan vs 🇩🇿 Algeria</span><span class="fixture-meta">Santa Clara · 1:00pm AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Tuesday 23 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇵🇹 Portugal vs 🇺🇿 Uzbekistan</span><span class="fixture-meta">Houston · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group L</span><span class="fixture-teams">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇬🇭 Ghana</span><span class="fixture-meta">Boston · 6:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group L</span><span class="fixture-teams">🇵🇦 Panama vs 🇭🇷 Croatia</span><span class="fixture-meta">Toronto · 9:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇨🇴 Colombia vs 🇨🇩 DR Congo</span><span class="fixture-meta">Zapopan · 12:00pm AEST</span></div>
+      </div>
+    </div>
+
+    <div class="md-panel" id="md-panel-3">
+      <div class="date-group"><div class="date-label">Wednesday 24 June — simultaneous kick-offs</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇨🇿 Czechia vs 🇲🇽 Mexico</span><span class="fixture-meta">Mexico City · 11:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇿🇦 South Africa vs 🇰🇷 South Korea</span><span class="fixture-meta">Guadalupe · 11:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group B</span><span class="fixture-teams">🇨🇭 Switzerland vs 🇨🇦 Canada</span><span class="fixture-meta">Vancouver · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group B</span><span class="fixture-teams">🇧🇦 Bosnia &amp; Herzegovina vs 🇶🇦 Qatar</span><span class="fixture-meta">Seattle · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group C</span><span class="fixture-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland vs 🇧🇷 Brazil</span><span class="fixture-meta">Miami · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group C</span><span class="fixture-teams">🇲🇦 Morocco vs 🇭🇹 Haiti</span><span class="fixture-meta">Atlanta · 8:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Thursday 25 June — simultaneous kick-offs</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇹🇷 Turkey vs 🇺🇸 USA</span><span class="fixture-meta">Los Angeles · 12:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇵🇾 Paraguay vs 🇦🇺 Australia</span><span class="fixture-meta">Santa Clara · 12:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group E</span><span class="fixture-teams">🇪🇨 Ecuador vs 🇩🇪 Germany</span><span class="fixture-meta">New York/New Jersey · 6:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group E</span><span class="fixture-teams">🇨🇼 Curaçao vs 🇨🇮 Ivory Coast</span><span class="fixture-meta">Philadelphia · 6:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇯🇵 Japan vs 🇸🇪 Sweden</span><span class="fixture-meta">Arlington · 9:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇹🇳 Tunisia vs 🇳🇱 Netherlands</span><span class="fixture-meta">Kansas City · 9:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Friday 26 June — simultaneous kick-offs</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇪🇬 Egypt vs 🇮🇷 IR Iran</span><span class="fixture-meta">Seattle · 1:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇳🇿 New Zealand vs 🇧🇪 Belgium</span><span class="fixture-meta">Vancouver · 1:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇨🇻 Cabo Verde vs 🇸🇦 Saudi Arabia</span><span class="fixture-meta">Houston · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇺🇾 Uruguay vs 🇪🇸 Spain</span><span class="fixture-meta">Zapopan · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group I</span><span class="fixture-teams">🇳🇴 Norway vs 🇫🇷 France</span><span class="fixture-meta">Boston · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group I</span><span class="fixture-teams">🇸🇳 Senegal vs 🇮🇶 Iraq</span><span class="fixture-meta">Toronto · 5:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Saturday 27 June — simultaneous kick-offs</div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇩🇿 Algeria vs 🇦🇹 Austria</span><span class="fixture-meta">Kansas City · 12:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇯🇴 Jordan vs 🇦🇷 Argentina</span><span class="fixture-meta">Arlington · 12:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇨🇴 Colombia vs 🇵🇹 Portugal</span><span class="fixture-meta">Miami · 9:30am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇨🇩 DR Congo vs 🇺🇿 Uzbekistan</span><span class="fixture-meta">Atlanta · 9:30am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group L</span><span class="fixture-teams">🇵🇦 Panama vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="fixture-meta">New York/New Jersey · 7:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group L</span><span class="fixture-teams">🇭🇷 Croatia vs 🇬🇭 Ghana</span><span class="fixture-meta">Philadelphia · 7:00am AEST</span></div>
+      </div>
+    </div>
+
+    <div class="md-panel" id="md-panel-4">
+      <div class="date-group"><div class="date-label">Sunday 28 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp A vs Runner-up Grp B</span><span class="fixture-meta">Los Angeles · 5:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Monday 29 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp E vs Best 3rd (A/B/C/D/F)</span><span class="fixture-meta">Boston · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp F vs Runner-up Grp C</span><span class="fixture-meta">Houston · 6:30am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp C vs Runner-up Grp F</span><span class="fixture-meta">Monterrey · 11:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Tuesday 30 June</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp A vs Best 3rd (C/E/F/H/I)</span><span class="fixture-meta">New York/NJ · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp L vs Best 3rd (E/H/I/J/K)</span><span class="fixture-meta">Dallas · 11:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Wednesday 1 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp I vs Best 3rd (C/D/F/G/H)</span><span class="fixture-meta">Atlanta · 2:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp E vs Runner-up Grp I</span><span class="fixture-meta">San Francisco · 10:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Thursday 2 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp B vs Best 3rd (E/F/G/I/J)</span><span class="fixture-meta">Toronto · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp D vs Runner-up Grp G</span><span class="fixture-meta">Vancouver · 11:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Friday 3 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp D vs Best 3rd (B/E/F/I/J)</span><span class="fixture-meta">Seattle · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp G vs Best 3rd (A/E/H/I/J)</span><span class="fixture-meta">Dallas · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp K vs Runner-up Grp L</span><span class="fixture-meta">Miami · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp H vs Runner-up Grp J</span><span class="fixture-meta">Kansas City · 11:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Friday 3 – Saturday 4 July (TBC)</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp J vs Runner-up Grp H</span><span class="fixture-meta">TBC</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp K vs Best 3rd (D/E/I/J/L)</span><span class="fixture-meta">TBC</span></div>
+      </div>
+    </div>
+
+    <div class="md-panel" id="md-panel-5">
+      <div class="date-group"><div class="date-label">Saturday 4 July — US Independence Day</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M1 vs Winner R32 M2</span><span class="fixture-meta">Houston · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M3 vs Winner R32 M4</span><span class="fixture-meta">New York/NJ · 7:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Sunday 5 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M5 vs Winner R32 M6</span><span class="fixture-meta">San Francisco · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M7 vs Winner R32 M8</span><span class="fixture-meta">Mexico City · 10:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Monday 6 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M9 vs Winner R32 M10</span><span class="fixture-meta">Dallas · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M11 vs Winner R32 M12</span><span class="fixture-meta">Seattle · 10:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Tuesday 7 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M13 vs Winner R32 M14</span><span class="fixture-meta">Atlanta · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M15 vs Winner R32 M16</span><span class="fixture-meta">Philadelphia · 10:00am AEST</span></div>
+      </div>
+    </div>
+
+    <div class="md-panel" id="md-panel-6">
+      <div class="date-group"><div class="date-label">Thursday 9 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">QF</span><span class="fixture-teams">Quarter-Final 1 — TBD vs TBD</span><span class="fixture-meta">Boston · 6:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Friday 10 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">QF</span><span class="fixture-teams">Quarter-Final 2 — TBD vs TBD</span><span class="fixture-meta">Los Angeles · 5:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Saturday 11 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">QF</span><span class="fixture-teams">Quarter-Final 3 — TBD vs TBD</span><span class="fixture-meta">Miami · 7:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">QF</span><span class="fixture-teams">Quarter-Final 4 — TBD vs TBD</span><span class="fixture-meta">Kansas City · 11:00am AEST</span></div>
+      </div>
+    </div>
+
+    <div class="md-panel" id="md-panel-7">
+      <div class="date-group"><div class="date-label">Tuesday 14 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">SF</span><span class="fixture-teams">Semi-Final 1 — TBD vs TBD</span><span class="fixture-meta">Dallas (AT&amp;T Stadium) · 5:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Wednesday 15 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">SF</span><span class="fixture-teams">Semi-Final 2 — TBD vs TBD</span><span class="fixture-meta">Atlanta (Mercedes-Benz Stadium) · 5:00am AEST</span></div>
+      </div>
+      <div class="date-group"><div class="date-label">Saturday 18 July — Third Place Play-off</div>
+        <div class="fixture-row"><span class="fixture-group-badge">3RD</span><span class="fixture-teams">Third Place Play-off — TBD vs TBD</span><span class="fixture-meta">Miami (Hard Rock Stadium) · 7:00am AEST</span></div>
+      </div>
+    </div>
+
+    <div class="md-panel" id="md-panel-8">
+      <div class="date-group"><div class="date-label">Sunday 19 July 🏆</div>
+        <div class="fixture-row"><span class="fixture-group-badge" style="background:rgba(220,38,38,0.2);color:#DC2626;border-color:rgba(220,38,38,0.4)">FINAL</span><span class="fixture-teams" style="font-size:1.1rem">🏆 World Cup Final — TBD vs TBD</span><span class="fixture-meta">New York/NJ (MetLife Stadium) · 5:00am AEST</span></div>
+      </div>
+      <div style="margin-top:1rem;padding:1rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--muted);line-height:1.6;">
+        🏟️ <strong style="color:var(--text)">MetLife Stadium</strong> · East Rutherford, New Jersey<br>
+        📅 Sunday 19 July 2026 · Kick-off 3:00pm EDT / <strong style="color:var(--text)">5:00am AEST (Mon 20 July)</strong><br>
+        👥 Capacity: 82,500
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="form-section" id="enter">
+  <div class="form-inner">
+    <div class="form-heading">Submit <span>your tips</span></div>
+    <p class="form-subheading">Enter your details and tips for each matchday below. Submit each matchday before the deadline.</p>
+    <div class="closed-notice" id="closed-notice"></div>
+    <div class="buyin-notice">💰 <span>Remember to pay your <strong>$50 buy-in</strong> via bank transfer before your tips count. Contact your organiser for details.</span></div>
+
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbyTkdNFwyA-5Rc-FjpSox4wDiV3hbVgUIPYXwa2OOqZ-A0hRngSr-Z1K1aLusEBgMI8/exec" method="POST">
+      <input type="hidden" name="Timestamp" id="form-timestamp">
+      <input type="hidden" name="_redirect" value="https://wewctipping.netlify.app?submitted=1">
+
+      <div id="tips-body">
+        <div class="form-group">
+          <label for="name">Full name *</label>
+          <input type="text" id="name" name="name" placeholder="e.g. Jordan Smith">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone number *</label>
+          <input type="tel" id="phone" name="phone" placeholder="e.g. 0412 345 678">
+        </div>
+
+        <div class="form-md-tabs">
+          <button type="button" class="form-md-tab active" onclick="showFormMD(1)">Matchday 1</button>
+          <button type="button" class="form-md-tab" onclick="showFormMD(2)">Matchday 2</button>
+          <button type="button" class="form-md-tab" onclick="showFormMD(3)">Matchday 3</button>
+        </div>
+
+        <div class="form-md-panel active" id="form-md-1">
+          <div class="matches-label">⚽ Matchday 1 — 11–17 June</div>
+          <div id="form-matches-1"></div>
+        </div>
+        <div class="form-md-panel" id="form-md-2">
+          <div class="matches-label">⚽ Matchday 2 — 18–23 June</div>
+          <div id="form-matches-2"></div>
+        </div>
+        <div class="form-md-panel" id="form-md-3">
+          <div class="matches-label">⚽ Matchday 3 — 25–28 June</div>
+          <div id="form-matches-3"></div>
+        </div>
+
+        <button type="submit" class="submit-btn">Save my tips ✓</button>
+
+        <div id="final-submit-section" style="display:none;margin-top:1rem;">
+          <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:5px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:var(--text);line-height:1.6;">
+            🏁 <strong>Happy with your tips?</strong> Hit Final Submit to lock them in and send them to the organiser. You can still edit and re-submit right up until each match deadline.
+          </div>
+          <button type="button" id="final-submit-btn" onclick="handleFinalSubmit()" class="submit-btn" style="background:#CC1122;">
+            🏁 Final Submit — Send my tips
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="success-state" id="success-state"></div>
+  </div>
+</div>
+
+<footer>
+  <p>World Cup 2026 Tipping Comp 🏆</p>
+</footer>
+
+<div class="modal-overlay" id="confirm-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-icon">⚠️</div>
+    <div class="modal-title">Hold on!</div>
+    <div class="modal-body">You haven't filled in tips for all matchdays. Are you sure you want to skip these?</div>
+    <div class="modal-missing" id="modal-missing-list"></div>
+    <div class="modal-btns">
+      <button class="modal-btn-go-back" id="modal-go-back">Go back and fill them in</button>
+      <button class="modal-btn-submit-anyway" id="modal-submit-anyway">Submit anyway with what I've entered</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="final-confirm-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-icon">🏁</div>
+    <div class="modal-title">Send your tips?</div>
+    <div class="modal-body" id="final-confirm-body">Your tips will be sent to the organiser. You can still edit and re-submit before each match deadline.</div>
+    <div class="modal-btns">
+      <button class="modal-btn-go-back" id="final-confirm-yes" style="background:var(--green);">Yes — send my tips</button>
+      <button class="modal-btn-submit-anyway" id="final-confirm-no">Go back</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="error-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-icon">❌</div>
+    <div class="modal-title">Missing info</div>
+    <div class="modal-body">Please fix the following before saving:</div>
+    <div class="modal-missing" id="error-list"></div>
+    <div class="modal-btns">
+      <button class="modal-btn-go-back" id="error-close-btn">Go back and fix it</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.showMD = function(n) {
+    document.querySelectorAll('.md-tab:not(.locked)').forEach(t => {
+      t.classList.toggle('active', t.getAttribute('onclick') === 'showMD('+n+')');
+    });
+    document.querySelectorAll('.md-panel').forEach((p,i) => p.classList.toggle('active', i === n-1));
+  };
+  window.showFormMD = function(n) {
+    document.querySelectorAll('.form-md-tab').forEach((t,i) => t.classList.toggle('active', i===n-1));
+    document.querySelectorAll('.form-md-panel').forEach((p,i) => p.classList.toggle('active', i===n-1));
+  };
+
+  const MD1 = [
+    {id:'a1',g:'A',teams:'🇲🇽 Mexico vs 🇿🇦 South Africa',date:'12 Jun · 5:00am AEST',ko:'2026-06-11T19:00:00Z'},
+    {id:'a2',g:'A',teams:'🇰🇷 South Korea vs 🇨🇿 Czechia',date:'12 Jun · 12:00pm AEST',ko:'2026-06-12T02:00:00Z'},
+    {id:'b1',g:'B',teams:'🇨🇦 Canada vs 🇧🇦 Bosnia & Herzegovina',date:'13 Jun · 5:00am AEST',ko:'2026-06-12T19:00:00Z'},
+    {id:'d1',g:'D',teams:'🇺🇸 USA vs 🇵🇾 Paraguay',date:'13 Jun · 11:00am AEST',ko:'2026-06-13T01:00:00Z'},
+    {id:'b2',g:'B',teams:'🇶🇦 Qatar vs 🇨🇭 Switzerland',date:'14 Jun · 5:00am AEST',ko:'2026-06-13T19:00:00Z'},
+    {id:'c1',g:'C',teams:'🇧🇷 Brazil vs 🇲🇦 Morocco',date:'14 Jun · 8:00am AEST',ko:'2026-06-13T22:00:00Z'},
+    {id:'c2',g:'C',teams:'🇭🇹 Haiti vs 🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland',date:'14 Jun · 11:00am AEST',ko:'2026-06-14T01:00:00Z'},
+    {id:'d2',g:'D',teams:'🇦🇺 Australia vs 🇹🇷 Turkey',date:'14 Jun · 2:00pm AEST',ko:'2026-06-14T04:00:00Z'},
+    {id:'e1',g:'E',teams:'🇩🇪 Germany vs 🇨🇼 Curaçao',date:'15 Jun · 3:00am AEST',ko:'2026-06-14T17:00:00Z'},
+    {id:'f1',g:'F',teams:'🇳🇱 Netherlands vs 🇯🇵 Japan',date:'15 Jun · 6:00am AEST',ko:'2026-06-14T20:00:00Z'},
+    {id:'e2',g:'E',teams:'🇨🇮 Ivory Coast vs 🇪🇨 Ecuador',date:'15 Jun · 9:00am AEST',ko:'2026-06-14T23:00:00Z'},
+    {id:'f2',g:'F',teams:'🇸🇪 Sweden vs 🇹🇳 Tunisia',date:'15 Jun · 12:00pm AEST',ko:'2026-06-15T02:00:00Z'},
+    {id:'h1',g:'H',teams:'🇪🇸 Spain vs 🇨🇻 Cabo Verde',date:'16 Jun · 2:00am AEST',ko:'2026-06-15T16:00:00Z'},
+    {id:'g1',g:'G',teams:'🇧🇪 Belgium vs 🇪🇬 Egypt',date:'16 Jun · 5:00am AEST',ko:'2026-06-15T19:00:00Z'},
+    {id:'h2',g:'H',teams:'🇸🇦 Saudi Arabia vs 🇺🇾 Uruguay',date:'16 Jun · 8:00am AEST',ko:'2026-06-15T22:00:00Z'},
+    {id:'g2',g:'G',teams:'🇮🇷 IR Iran vs 🇳🇿 New Zealand',date:'16 Jun · 11:00am AEST',ko:'2026-06-16T01:00:00Z'},
+    {id:'i1',g:'I',teams:'🇫🇷 France vs 🇸🇳 Senegal',date:'17 Jun · 5:00am AEST',ko:'2026-06-16T19:00:00Z'},
+    {id:'i2',g:'I',teams:'🇮🇶 Iraq vs 🇳🇴 Norway',date:'17 Jun · 8:00am AEST',ko:'2026-06-16T22:00:00Z'},
+    {id:'j1',g:'J',teams:'🇦🇷 Argentina vs 🇩🇿 Algeria',date:'17 Jun · 11:00am AEST',ko:'2026-06-17T01:00:00Z'},
+    {id:'j2',g:'J',teams:'🇦🇹 Austria vs 🇯🇴 Jordan',date:'17 Jun · 2:00pm AEST',ko:'2026-06-17T04:00:00Z'},
+    {id:'k1',g:'K',teams:'🇵🇹 Portugal vs 🇨🇩 DR Congo',date:'18 Jun · 3:00am AEST',ko:'2026-06-17T17:00:00Z'},
+    {id:'l1',g:'L',teams:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇭🇷 Croatia',date:'18 Jun · 6:00am AEST',ko:'2026-06-17T20:00:00Z'},
+    {id:'l2',g:'L',teams:'🇬🇭 Ghana vs 🇵🇦 Panama',date:'18 Jun · 9:00am AEST',ko:'2026-06-17T23:00:00Z'},
+    {id:'k2',g:'K',teams:'🇺🇿 Uzbekistan vs 🇨🇴 Colombia',date:'18 Jun · 12:00pm AEST',ko:'2026-06-18T02:00:00Z'},
+  ];
+  const MD2 = [
+    {id:'a3',g:'A',teams:'🇨🇿 Czechia vs 🇿🇦 South Africa',date:'19 Jun · 2:00am AEST',ko:'2026-06-18T16:00:00Z'},
+    {id:'b3',g:'B',teams:'🇨🇭 Switzerland vs 🇧🇦 Bosnia & Herzegovina',date:'19 Jun · 5:00am AEST',ko:'2026-06-18T19:00:00Z'},
+    {id:'b4',g:'B',teams:'🇨🇦 Canada vs 🇶🇦 Qatar',date:'19 Jun · 8:00am AEST',ko:'2026-06-18T22:00:00Z'},
+    {id:'a4',g:'A',teams:'🇲🇽 Mexico vs 🇰🇷 South Korea',date:'19 Jun · 11:00am AEST',ko:'2026-06-19T01:00:00Z'},
+    {id:'d3',g:'D',teams:'🇺🇸 USA vs 🇦🇺 Australia',date:'20 Jun · 5:00am AEST',ko:'2026-06-19T19:00:00Z'},
+    {id:'c3',g:'C',teams:'🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland vs 🇲🇦 Morocco',date:'20 Jun · 8:00am AEST',ko:'2026-06-19T22:00:00Z'},
+    {id:'c4',g:'C',teams:'🇧🇷 Brazil vs 🇭🇹 Haiti',date:'20 Jun · 10:30am AEST',ko:'2026-06-20T00:30:00Z'},
+    {id:'d4',g:'D',teams:'🇹🇷 Turkey vs 🇵🇾 Paraguay',date:'20 Jun · 1:00pm AEST',ko:'2026-06-20T03:00:00Z'},
+    {id:'f3',g:'F',teams:'🇳🇱 Netherlands vs 🇸🇪 Sweden',date:'21 Jun · 3:00am AEST',ko:'2026-06-20T17:00:00Z'},
+    {id:'e3',g:'E',teams:'🇩🇪 Germany vs 🇨🇮 Ivory Coast',date:'21 Jun · 6:00am AEST',ko:'2026-06-20T20:00:00Z'},
+    {id:'e4',g:'E',teams:'🇪🇨 Ecuador vs 🇨🇼 Curaçao',date:'21 Jun · 10:00am AEST',ko:'2026-06-21T00:00:00Z'},
+    {id:'f4',g:'F',teams:'🇹🇳 Tunisia vs 🇯🇵 Japan',date:'21 Jun · 2:00pm AEST',ko:'2026-06-21T04:00:00Z'},
+    {id:'h3',g:'H',teams:'🇪🇸 Spain vs 🇸🇦 Saudi Arabia',date:'22 Jun · 2:00am AEST',ko:'2026-06-21T16:00:00Z'},
+    {id:'g3',g:'G',teams:'🇧🇪 Belgium vs 🇮🇷 IR Iran',date:'22 Jun · 5:00am AEST',ko:'2026-06-21T19:00:00Z'},
+    {id:'h4',g:'H',teams:'🇺🇾 Uruguay vs 🇨🇻 Cabo Verde',date:'22 Jun · 8:00am AEST',ko:'2026-06-21T22:00:00Z'},
+    {id:'g4',g:'G',teams:'🇳🇿 New Zealand vs 🇪🇬 Egypt',date:'22 Jun · 11:00am AEST',ko:'2026-06-22T01:00:00Z'},
+    {id:'j3',g:'J',teams:'🇦🇷 Argentina vs 🇦🇹 Austria',date:'23 Jun · 3:00am AEST',ko:'2026-06-22T17:00:00Z'},
+    {id:'i3',g:'I',teams:'🇫🇷 France vs 🇮🇶 Iraq',date:'23 Jun · 7:00am AEST',ko:'2026-06-22T21:00:00Z'},
+    {id:'i4',g:'I',teams:'🇳🇴 Norway vs 🇸🇳 Senegal',date:'23 Jun · 10:00am AEST',ko:'2026-06-23T00:00:00Z'},
+    {id:'j4',g:'J',teams:'🇯🇴 Jordan vs 🇩🇿 Algeria',date:'23 Jun · 1:00pm AEST',ko:'2026-06-23T03:00:00Z'},
+    {id:'k3',g:'K',teams:'🇵🇹 Portugal vs 🇺🇿 Uzbekistan',date:'24 Jun · 3:00am AEST',ko:'2026-06-23T17:00:00Z'},
+    {id:'l3',g:'L',teams:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇬🇭 Ghana',date:'24 Jun · 6:00am AEST',ko:'2026-06-23T20:00:00Z'},
+    {id:'l4',g:'L',teams:'🇵🇦 Panama vs 🇭🇷 Croatia',date:'24 Jun · 9:00am AEST',ko:'2026-06-23T23:00:00Z'},
+    {id:'k4',g:'K',teams:'🇨🇴 Colombia vs 🇨🇩 DR Congo',date:'24 Jun · 12:00pm AEST',ko:'2026-06-24T02:00:00Z'},
+  ];
+  const MD3 = [
+    {id:'b5',g:'B',teams:'🇨🇭 Switzerland vs 🇨🇦 Canada',date:'25 Jun · 5:00am AEST',ko:'2026-06-24T19:00:00Z'},
+    {id:'b6',g:'B',teams:'🇧🇦 Bosnia & Herzegovina vs 🇶🇦 Qatar',date:'25 Jun · 5:00am AEST',ko:'2026-06-24T19:00:00Z'},
+    {id:'c5',g:'C',teams:'🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland vs 🇧🇷 Brazil',date:'25 Jun · 8:00am AEST',ko:'2026-06-24T22:00:00Z'},
+    {id:'c6',g:'C',teams:'🇲🇦 Morocco vs 🇭🇹 Haiti',date:'25 Jun · 8:00am AEST',ko:'2026-06-24T22:00:00Z'},
+    {id:'a5',g:'A',teams:'🇨🇿 Czechia vs 🇲🇽 Mexico',date:'25 Jun · 11:00am AEST',ko:'2026-06-25T01:00:00Z'},
+    {id:'a6',g:'A',teams:'🇿🇦 South Africa vs 🇰🇷 South Korea',date:'25 Jun · 11:00am AEST',ko:'2026-06-25T01:00:00Z'},
+    {id:'e5',g:'E',teams:'🇪🇨 Ecuador vs 🇩🇪 Germany',date:'26 Jun · 6:00am AEST',ko:'2026-06-25T20:00:00Z'},
+    {id:'e6',g:'E',teams:'🇨🇼 Curaçao vs 🇨🇮 Ivory Coast',date:'26 Jun · 6:00am AEST',ko:'2026-06-25T20:00:00Z'},
+    {id:'f5',g:'F',teams:'🇯🇵 Japan vs 🇸🇪 Sweden',date:'26 Jun · 9:00am AEST',ko:'2026-06-25T23:00:00Z'},
+    {id:'f6',g:'F',teams:'🇹🇳 Tunisia vs 🇳🇱 Netherlands',date:'26 Jun · 9:00am AEST',ko:'2026-06-25T23:00:00Z'},
+    {id:'d5',g:'D',teams:'🇹🇷 Turkey vs 🇺🇸 USA',date:'26 Jun · 12:00pm AEST',ko:'2026-06-26T02:00:00Z'},
+    {id:'d6',g:'D',teams:'🇵🇾 Paraguay vs 🇦🇺 Australia',date:'26 Jun · 12:00pm AEST',ko:'2026-06-26T02:00:00Z'},
+    {id:'i5',g:'I',teams:'🇳🇴 Norway vs 🇫🇷 France',date:'27 Jun · 5:00am AEST',ko:'2026-06-26T19:00:00Z'},
+    {id:'i6',g:'I',teams:'🇸🇳 Senegal vs 🇮🇶 Iraq',date:'27 Jun · 5:00am AEST',ko:'2026-06-26T19:00:00Z'},
+    {id:'g5',g:'G',teams:'🇪🇬 Egypt vs 🇮🇷 IR Iran',date:'27 Jun · 1:00pm AEST',ko:'2026-06-27T03:00:00Z'},
+    {id:'g6',g:'G',teams:'🇳🇿 New Zealand vs 🇧🇪 Belgium',date:'27 Jun · 1:00pm AEST',ko:'2026-06-27T03:00:00Z'},
+    {id:'h5',g:'H',teams:'🇨🇻 Cabo Verde vs 🇸🇦 Saudi Arabia',date:'27 Jun · 10:00am AEST',ko:'2026-06-27T00:00:00Z'},
+    {id:'h6',g:'H',teams:'🇺🇾 Uruguay vs 🇪🇸 Spain',date:'27 Jun · 10:00am AEST',ko:'2026-06-27T00:00:00Z'},
+    {id:'l5',g:'L',teams:'🇵🇦 Panama vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England',date:'28 Jun · 7:00am AEST',ko:'2026-06-27T21:00:00Z'},
+    {id:'l6',g:'L',teams:'🇭🇷 Croatia vs 🇬🇭 Ghana',date:'28 Jun · 7:00am AEST',ko:'2026-06-27T21:00:00Z'},
+    {id:'k5',g:'K',teams:'🇨🇴 Colombia vs 🇵🇹 Portugal',date:'28 Jun · 9:30am AEST',ko:'2026-06-27T23:30:00Z'},
+    {id:'k6',g:'K',teams:'🇨🇩 DR Congo vs 🇺🇿 Uzbekistan',date:'28 Jun · 9:30am AEST',ko:'2026-06-27T23:30:00Z'},
+    {id:'j5',g:'J',teams:'🇩🇿 Algeria vs 🇦🇹 Austria',date:'28 Jun · 12:00pm AEST',ko:'2026-06-28T02:00:00Z'},
+    {id:'j6',g:'J',teams:'🇯🇴 Jordan vs 🇦🇷 Argentina',date:'28 Jun · 12:00pm AEST',ko:'2026-06-28T02:00:00Z'},
+  ];
+
+  const ALL_MATCHES = [...MD1, ...MD2, ...MD3];
+  const MATCH_DEADLINES = {};
+  ALL_MATCHES.forEach(m => { MATCH_DEADLINES[m.id] = new Date(new Date(m.ko).getTime() - 30*60*1000); });
+
+  function isMatchLocked(id) { return MATCH_DEADLINES[id] && new Date() >= MATCH_DEADLINES[id]; }
+
+  function buildMatchForms(matches, containerId) {
+    const c = document.getElementById(containerId);
+    matches.forEach(m => {
+      const parts = m.teams.split(' vs ');
+      const tA = parts[0], tB = parts[1];
+      const locked = isMatchLocked(m.id);
+      const lockedBadge = locked ? '<span style="font-size:10px;background:rgba(220,38,38,0.12);color:#f87171;border:1px solid rgba(220,38,38,0.25);border-radius:3px;padding:2px 7px;margin-left:6px;font-weight:600;">LOCKED</span>' : '';
+      const bl = locked ? 'locked-bubble' : '';
+      const da = locked ? 'disabled' : '';
+      c.innerHTML += '<div class="match-block" id="block-'+m.id+'" style="'+(locked?'opacity:0.45;':'')+'">'
+        +'<div class="match-header"><div class="match-teams">'+m.teams+lockedBadge+'</div>'
+        +'<div class="match-date">Grp '+m.g+' · '+m.date+'</div></div>'
+        +'<div class="match-inputs"><div><label>Your tip</label>'
+        +'<input type="hidden" name="'+m.id+'_result" id="sel-'+m.id+'" value="">'
+        +'<div class="bubble-group" id="bubbles-'+m.id+'">'
+        +'<div class="bubble '+bl+'" onclick="selectBubble(\''+m.id+'\',\''+tA+' win\',this)">'+tA+'</div>'
+        +'<div class="bubble '+bl+'" onclick="selectBubble(\''+m.id+'\',\'Draw\',this)">Draw</div>'
+        +'<div class="bubble '+bl+'" onclick="selectBubble(\''+m.id+'\',\''+tB+' win\',this)">'+tB+'</div>'
+        +'</div></div>'
+        +'<div><label>Predicted score</label><div class="score-inputs">'
+        +'<input type="number" name="'+m.id+'_score_a" id="sca-'+m.id+'" min="0" max="20" value="0" '+da+' style="max-width:70px;cursor:'+(locked?'not-allowed':'text')+'">'
+        +'<span class="score-sep">–</span>'
+        +'<input type="number" name="'+m.id+'_score_b" id="scb-'+m.id+'" min="0" max="20" value="0" '+da+' style="max-width:70px;cursor:'+(locked?'not-allowed':'text')+'">'
+        +'</div></div></div></div>';
+    });
+  }
+
+  window.selectBubble = function(matchId, value, el) {
+    document.getElementById('sel-'+matchId).value = value;
+    document.querySelectorAll('#bubbles-'+matchId+' .bubble').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+  };
+
+  function restoreBubbles() {
+    ALL_MATCHES.forEach(m => {
+      const hidden = document.getElementById('sel-'+m.id);
+      if (hidden && hidden.value) {
+        document.querySelectorAll('#bubbles-'+m.id+' .bubble').forEach(b => {
+          const oc = b.getAttribute('onclick') || '';
+          if (oc.indexOf(hidden.value) > -1) b.classList.add('selected');
+        });
+      }
+    });
+  }
+
+  buildMatchForms(MD1, 'form-matches-1');
+  buildMatchForms(MD2, 'form-matches-2');
+  buildMatchForms(MD3, 'form-matches-3');
+
+  setInterval(() => {
+    ALL_MATCHES.forEach(m => {
+      if (isMatchLocked(m.id)) {
+        const block = document.getElementById('block-'+m.id);
+        if (block && !block.dataset.locked) {
+          block.dataset.locked = '1';
+          block.style.opacity = '0.45';
+          const sca = document.getElementById('sca-'+m.id);
+          const scb = document.getElementById('scb-'+m.id);
+          if (sca) { sca.disabled = true; sca.style.cursor = 'not-allowed'; }
+          if (scb) { scb.disabled = true; scb.style.cursor = 'not-allowed'; }
+          document.querySelectorAll('#bubbles-'+m.id+' .bubble').forEach(b => { b.classList.add('locked-bubble'); b.setAttribute('onclick',''); });
+        }
+      }
+    });
+  }, 30000);
+
+  const DEADLINES = {
+    1: new Date('2026-06-11T18:30:00Z'),
+    2: new Date('2026-06-18T15:30:00Z'),
+    3: new Date('2026-06-24T18:30:00Z'),
+  };
+
+  document.getElementById('deadline-display').textContent = DEADLINES[1].toLocaleString('en-AU', {weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZoneName:'short'});
+
+  function lockForm(mdNum) {
+    const notice = document.getElementById('closed-notice');
+    notice.textContent = '⛔ Tips are now closed for Matchday '+mdNum+'. '+(mdNum < 3 ? 'Check back for Matchday '+(mdNum+1)+'!' : 'The group stage is complete!');
+    notice.style.display = 'block';
+    document.querySelectorAll('#tips-form input, #tips-form button').forEach(el => { el.disabled = true; el.style.opacity = '0.45'; el.style.cursor = 'not-allowed'; });
+    document.querySelectorAll('.bubble').forEach(b => { b.classList.add('locked-bubble'); b.setAttribute('onclick',''); });
+    const sb = document.querySelector('.submit-btn');
+    if (sb) sb.style.background = '#444';
+  }
+
+  function checkDeadlines() {
+    const now = new Date();
+    let active = null;
+    for (let md = 1; md <= 3; md++) { if (now < DEADLINES[md]) { active = md; break; } }
+    if (!active) lockForm(3);
+    else if (active > 1) lockForm(active - 1);
+    return active;
+  }
+
+  let activeMD = checkDeadlines();
+
+  const STORAGE_KEY = 'wc2026_tips';
+
+  function saveTips() {
+    const data = { savedAt: new Date().toISOString() };
+    new FormData(document.getElementById('tips-form')).forEach((v,k) => data[k] = v);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function restoreTips() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return false;
+    const data = JSON.parse(saved);
+    Object.entries(data).forEach(([k,v]) => {
+      if (k === 'savedAt') return;
+      const el = document.querySelector('[name="'+k+'"]');
+      if (el) el.value = v;
+    });
+    return data;
+  }
+
+  function showSavedBanner(savedAt) {
+    const ex = document.getElementById('saved-banner');
+    if (ex) ex.remove();
+    const banner = document.createElement('div');
+    banner.id = 'saved-banner';
+    banner.style.cssText = 'background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:5px;padding:10px 14px;margin-bottom:1rem;font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;';
+    banner.innerHTML = '✅ <span>Tips saved — last updated <strong>'+new Date(savedAt).toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'})+'</strong>. You can keep editing until the deadline.</span>';
+    const tb = document.getElementById('tips-body');
+    tb.insertBefore(banner, tb.firstChild);
+  }
+
+  const existingSave = localStorage.getItem(STORAGE_KEY);
+  setTimeout(() => {
+    if (existingSave) {
+      const data = restoreTips();
+      if (data && data.savedAt) showSavedBanner(data.savedAt);
+      restoreBubbles();
+    }
+  }, 100);
+
+  const countdownTarget = activeMD ? DEADLINES[activeMD] : DEADLINES[3];
+  function updateCountdown() {
+    const diff = countdownTarget - new Date();
+    if (diff <= 0) {
+      ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent='00');
+      document.getElementById('countdown-label').textContent = 'Tips closed';
+      lockForm(activeMD || 3);
+      return;
+    }
+    document.getElementById('cd-days').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('cd-mins').textContent  = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('cd-secs').textContent  = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  function getIncompleteMDs() {
+    const incomplete = [];
+    [[MD1,1],[MD2,2],[MD3,3]].forEach(([matches,mdNum]) => {
+      const hasAll = matches.every(m => { const r = document.getElementById('sel-'+m.id); return r && r.value; });
+      const hasAny = matches.some(m => { const r = document.getElementById('sel-'+m.id); return r && r.value; });
+      if (!hasAll) incomplete.push({mdNum, hasAny});
+    });
+    return incomplete;
+  }
+
+  function doSubmit() {
+    const now = new Date();
+    saveTips();
+    showSavedBanner(now.toISOString());
+    const currentMD = activeMD || 1;
+    if (now >= DEADLINES[currentMD]) { lockForm(currentMD); return; }
+    const ss = document.getElementById('success-state');
+    ss.style.display = 'block';
+    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">💾</div>'
+      +'<h3>Tips saved!</h3>'
+      +'<p>Saved at <strong>'+now.toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'})+'</strong>.</p>'
+      +'<p style="margin-top:0.5rem;color:var(--muted);font-size:14px;">Your tips are stored on this device. Edit any time before the deadline.<br>When you\'re happy, hit <strong style="color:var(--text)">Final Submit</strong> to send them to the organiser.</p>'
+      +'<div style="margin-top:1.5rem;"><button type="button" onclick="editTips()" style="background:transparent;color:var(--text);font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.05em;text-transform:uppercase;padding:12px 28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;">✏️ Edit my tips</button></div>';
+    ss.scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('final-submit-section').style.display = 'block';
+  }
+
+  window.handleFinalSubmit = function() {
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    if (!name || !phone) {
+      const errors = [];
+      if (!name) { errors.push('Full name is required'); markFieldError('name'); }
+      if (!phone) { errors.push('Phone number is required'); markFieldError('phone'); }
+      showError(errors); return;
+    }
+    document.getElementById('final-confirm-body').textContent = 'Sending tips for '+name+'. You can still edit and re-submit before each match deadline.';
+    openModal('final-confirm-modal');
+    document.getElementById('final-confirm-yes').onclick = function() {
+      closeModal('final-confirm-modal');
+      document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
+      document.getElementById('tips-form').submit();
+    };
+    document.getElementById('final-confirm-no').onclick = function() { closeModal('final-confirm-modal'); };
+  };
+
+  if (window.location.search.indexOf('submitted=1') !== -1) {
+    document.getElementById('tips-body').style.display = 'none';
+    const ss = document.getElementById('success-state');
+    ss.style.display = 'block';
+    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">🏁</div>'
+      +'<h3>Tips submitted!</h3>'
+      +'<p>Your tips have been sent to the organiser. Good luck! ⚽</p>'
+      +'<p style="margin-top:1rem;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:5px;padding:10px 14px;font-size:13px;color:var(--text);">📅 <strong>Round of 32 tips open 28 June</strong> — come back then to enter your knockout stage tips!</p>'
+      +'<button type="button" onclick="editAndResubmit()" style="margin-top:1.5rem;background:var(--green);color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.05em;text-transform:uppercase;padding:12px 28px;border:none;border-radius:4px;cursor:pointer;">✏️ Edit &amp; re-submit</button>';
+  }
+
+  window.editAndResubmit = function() {
+    document.getElementById('success-state').style.display = 'none';
+    document.getElementById('tips-form').style.display = 'block';
+    document.getElementById('tips-body').style.display = 'block';
+    document.getElementById('final-submit-section').style.display = 'block';
+    document.getElementById('tips-body').scrollIntoView({behavior:'smooth',block:'start'});
+  };
+
+  window.editTips = function() {
+    document.getElementById('success-state').style.display = 'none';
+    document.getElementById('tips-form').style.display = 'block';
+    document.getElementById('tips-body').style.display = 'block';
+    document.getElementById('tips-body').scrollIntoView({behavior:'smooth',block:'start'});
+  };
+
+  function openModal(id) { document.getElementById(id).style.display = 'block'; }
+  function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+  function showError(errors) {
+    document.getElementById('error-list').innerHTML = errors.map(e => '<div class="modal-missing-item">'+e+'</div>').join('');
+    openModal('error-modal');
+  }
+  function markFieldError(fieldId) {
+    const el = document.getElementById(fieldId);
+    if (!el) return;
+    const group = el.closest('.form-group');
+    if (group) {
+      group.classList.add('field-error');
+      const label = group.querySelector('label');
+      if (label) label.classList.add('field-error-label');
+      el.addEventListener('input', function() {
+        group.classList.remove('field-error');
+        if (label) label.classList.remove('field-error-label');
+      }, {once:true});
+    }
+  }
+  function clearAllFieldErrors() {
+    document.querySelectorAll('.field-error').forEach(el => el.classList.remove('field-error'));
+    document.querySelectorAll('.field-error-label').forEach(el => el.classList.remove('field-error-label'));
+  }
+
+  document.getElementById('error-close-btn').addEventListener('click', () => closeModal('error-modal'));
+  document.getElementById('error-modal').addEventListener('click', function(e) { if (e.target===this) closeModal(this.id); });
+  document.getElementById('modal-go-back').addEventListener('click', () => closeModal('confirm-modal'));
+  document.getElementById('modal-submit-anyway').addEventListener('click', function() { closeModal('confirm-modal'); doSubmit(); });
+  document.getElementById('confirm-modal').addEventListener('click', function(e) { if (e.target===this) closeModal(this.id); });
+
+  document.getElementById('tips-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const now = new Date();
+    const currentMD = activeMD || 1;
+    if (now >= DEADLINES[currentMD]) { lockForm(currentMD); return; }
+    clearAllFieldErrors();
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    if (!name || !phone) {
+      const errors = [];
+      if (!name) { errors.push('Full name is required'); markFieldError('name'); }
+      if (!phone) { errors.push('Phone number is required'); markFieldError('phone'); }
+      showError(errors); return;
+    }
+    const incomplete = getIncompleteMDs();
+    if (incomplete.length > 0) {
+      document.getElementById('modal-missing-list').innerHTML = incomplete.map(({mdNum,hasAny}) =>
+        '<div class="modal-missing-item">Matchday '+mdNum+' — '+(hasAny?'partially filled in':'no tips entered')+'</div>'
+      ).join('');
+      openModal('confirm-modal'); return;
+    }
+    doSubmit();
+  });
+</script>
+</body>
+</html>
