@@ -400,7 +400,8 @@
     <div class="closed-notice" id="closed-notice"></div>
     <div class="buyin-notice">💰 <span>Remember to pay your <strong>$50 buy-in</strong> via bank transfer before your tips count. Contact your organiser for details.</span></div>
 
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbzqfjpcvWc15q30C0LGlV33j6LOgODp-L61gvzypUbKdjvTcraJPc3FSZsurXlLUNPSfg/exec" method="POST">
+    <iframe name="hidden-submit-frame" id="hidden-submit-frame" style="display:none"></iframe>
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbzqfjpcvWc15q30C0LGlV33j6LOgODp-L61gvzypUbKdjvTcraJPc3FSZsurXlLUNPSfg/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -487,6 +488,24 @@
     <div class="modal-missing" id="error-list"></div>
     <div class="modal-btns">
       <button class="modal-btn-go-back" id="error-close-btn">Go back and fix it</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="thankyou-modal" style="display:none">
+  <div class="modal">
+    <div class="modal-icon">⚽🏆</div>
+    <div class="modal-title">You're in!</div>
+    <div class="modal-body">
+      <strong>Thanks for entering your tips!</strong><br><br>
+      Your tips have been sent to the organiser. Make sure your <strong>$50 buy-in</strong> is paid to lock in your entry.<br><br>
+      Keep checking back — Round of 32 tips open <strong>28 June</strong> once the group stage is done!<br><br>
+      Good luck! 🦅
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn-go-back" onclick="closeModal('thankyou-modal');editTips()">✏️ Edit my tips</button>
+      <button class="modal-btn-submit-anyway" onclick="closeModal('thankyou-modal')">Close</button>
     </div>
   </div>
 </div>
@@ -782,20 +801,13 @@
       closeModal('final-confirm-modal');
       document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
       document.getElementById('tips-form').submit();
+      // Show thank you popup instead of redirecting
+      setTimeout(function() { openModal('thankyou-modal'); }, 800);
     };
     document.getElementById('final-confirm-no').onclick = function() { closeModal('final-confirm-modal'); };
   };
 
-  if (window.location.search.indexOf('submitted=1') !== -1) {
-    document.getElementById('tips-body').style.display = 'none';
-    const ss = document.getElementById('success-state');
-    ss.style.display = 'block';
-    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">🏁</div>'
-      +'<h3>Tips submitted!</h3>'
-      +'<p>Your tips have been sent to the organiser. Good luck! ⚽</p>'
-      +'<p style="margin-top:1rem;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:5px;padding:10px 14px;font-size:13px;color:var(--text);">📅 <strong>Round of 32 tips open 28 June</strong> — come back then to enter your knockout stage tips!</p>'
-      +'<button type="button" onclick="editAndResubmit()" style="margin-top:1.5rem;background:var(--green);color:#fff;font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.05em;text-transform:uppercase;padding:12px 28px;border:none;border-radius:4px;cursor:pointer;">✏️ Edit &amp; re-submit</button>';
-  }
+
 
   window.editAndResubmit = function() {
     document.getElementById('success-state').style.display = 'none';
