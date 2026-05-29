@@ -13,10 +13,11 @@
     --border: rgba(0,0,0,0.08);
     --text: #111111; --muted: rgba(17,17,17,0.45);
   }
+  html, body { margin: 0; padding: 0; width: 100%; }
   html { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
   body { background: var(--bg); color: var(--text); font-family: 'Barlow', sans-serif; font-size: 16px; line-height: 1.6; }
 
-  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1.5rem 4rem; position: relative; overflow: hidden; }
+  .hero { min-height: 100vh; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1.5rem 4rem; position: relative; overflow: hidden; margin: 0 auto; }
   .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(204,17,34,0.08) 0%, transparent 65%), repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(0,0,0,0.04) 60px, rgba(0,0,0,0.04) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(0,0,0,0.04) 60px, rgba(0,0,0,0.04) 61px); pointer-events: none; }
   .hero-badge { display: inline-block; background: var(--green); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 14px; border-radius: 2px; margin-bottom: 1.5rem; animation: fadeUp 0.5s ease both; }
   .hero h1 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 0.92; text-transform: uppercase; margin-bottom: 1.5rem; animation: fadeUp 0.5s 0.1s ease both; }
@@ -143,7 +144,7 @@
   <p class="hero-sub">Get your tips in before the deadline. 1 point for the correct result, 1 bonus point for the exact score.</p>
   <div class="hero-stats">
     <div class="hero-stat"><div class="hero-stat-val">$50</div><div class="hero-stat-label">Buy-in</div></div>
-    <div class="hero-stat"><div class="hero-stat-val">50%</div><div class="hero-stat-label">Winner takes</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">$500+</div><div class="hero-stat-label">Win</div></div>
     <div class="hero-stat"><div class="hero-stat-val">2pts</div><div class="hero-stat-label">Max per match</div></div>
   </div>
   <a href="#enter" class="cta-btn">Enter now →</a>
@@ -270,36 +271,36 @@
 
     <div class="md-panel" id="md-panel-3">
       <div class="date-group"><div class="date-label">Thursday 25 June — simultaneous kick-offs</div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇨🇿 Czechia vs 🇲🇽 Mexico</span><span class="fixture-meta">Mexico City · 11:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇿🇦 South Africa vs 🇰🇷 South Korea</span><span class="fixture-meta">Guadalupe · 11:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group B</span><span class="fixture-teams">🇨🇭 Switzerland vs 🇨🇦 Canada</span><span class="fixture-meta">Vancouver · 5:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group B</span><span class="fixture-teams">🇧🇦 Bosnia &amp; Herzegovina vs 🇶🇦 Qatar</span><span class="fixture-meta">Seattle · 5:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group C</span><span class="fixture-teams">🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland vs 🇧🇷 Brazil</span><span class="fixture-meta">Miami · 8:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group C</span><span class="fixture-teams">🇲🇦 Morocco vs 🇭🇹 Haiti</span><span class="fixture-meta">Atlanta · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇨🇿 Czechia vs 🇲🇽 Mexico</span><span class="fixture-meta">Mexico City · 11:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group A</span><span class="fixture-teams">🇿🇦 South Africa vs 🇰🇷 South Korea</span><span class="fixture-meta">Monterrey · 11:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Friday 26 June — simultaneous kick-offs</div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇹🇷 Turkey vs 🇺🇸 USA</span><span class="fixture-meta">Los Angeles · 12:00pm AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇵🇾 Paraguay vs 🇦🇺 Australia</span><span class="fixture-meta">Santa Clara · 12:00pm AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group E</span><span class="fixture-teams">🇪🇨 Ecuador vs 🇩🇪 Germany</span><span class="fixture-meta">New York/New Jersey · 6:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group E</span><span class="fixture-teams">🇨🇼 Curaçao vs 🇨🇮 Ivory Coast</span><span class="fixture-meta">Philadelphia · 6:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇯🇵 Japan vs 🇸🇪 Sweden</span><span class="fixture-meta">Arlington · 9:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇯🇵 Japan vs 🇸🇪 Sweden</span><span class="fixture-meta">Dallas · 9:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group F</span><span class="fixture-teams">🇹🇳 Tunisia vs 🇳🇱 Netherlands</span><span class="fixture-meta">Kansas City · 9:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇹🇷 Turkey vs 🇺🇸 USA</span><span class="fixture-meta">Los Angeles · 12:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group D</span><span class="fixture-teams">🇵🇾 Paraguay vs 🇦🇺 Australia</span><span class="fixture-meta">SF Bay Area · 12:00pm AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Saturday 27 June — simultaneous kick-offs</div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇪🇬 Egypt vs 🇮🇷 IR Iran</span><span class="fixture-meta">Seattle · 1:00pm AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇳🇿 New Zealand vs 🇧🇪 Belgium</span><span class="fixture-meta">Vancouver · 1:00pm AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇨🇻 Cabo Verde vs 🇸🇦 Saudi Arabia</span><span class="fixture-meta">Houston · 10:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇺🇾 Uruguay vs 🇪🇸 Spain</span><span class="fixture-meta">Zapopan · 10:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group I</span><span class="fixture-teams">🇳🇴 Norway vs 🇫🇷 France</span><span class="fixture-meta">Boston · 5:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group I</span><span class="fixture-teams">🇸🇳 Senegal vs 🇮🇶 Iraq</span><span class="fixture-meta">Toronto · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇨🇻 Cabo Verde vs 🇸🇦 Saudi Arabia</span><span class="fixture-meta">Houston · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group H</span><span class="fixture-teams">🇺🇾 Uruguay vs 🇪🇸 Spain</span><span class="fixture-meta">Guadalajara · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇪🇬 Egypt vs 🇮🇷 IR Iran</span><span class="fixture-meta">Seattle · 1:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group G</span><span class="fixture-teams">🇳🇿 New Zealand vs 🇧🇪 Belgium</span><span class="fixture-meta">Vancouver · 1:00pm AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Sunday 28 June — simultaneous kick-offs</div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇩🇿 Algeria vs 🇦🇹 Austria</span><span class="fixture-meta">Kansas City · 12:00pm AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇯🇴 Jordan vs 🇦🇷 Argentina</span><span class="fixture-meta">Arlington · 12:00pm AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇨🇴 Colombia vs 🇵🇹 Portugal</span><span class="fixture-meta">Miami · 9:30am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇨🇩 DR Congo vs 🇺🇿 Uzbekistan</span><span class="fixture-meta">Atlanta · 9:30am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group L</span><span class="fixture-teams">🇵🇦 Panama vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="fixture-meta">New York/New Jersey · 7:00am AEST</span></div>
         <div class="fixture-row"><span class="fixture-group-badge">Group L</span><span class="fixture-teams">🇭🇷 Croatia vs 🇬🇭 Ghana</span><span class="fixture-meta">Philadelphia · 7:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇨🇴 Colombia vs 🇵🇹 Portugal</span><span class="fixture-meta">Miami · 9:30am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group K</span><span class="fixture-teams">🇨🇩 DR Congo vs 🇺🇿 Uzbekistan</span><span class="fixture-meta">Atlanta · 9:30am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇩🇿 Algeria vs 🇦🇹 Austria</span><span class="fixture-meta">Kansas City · 12:00pm AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">Group J</span><span class="fixture-teams">🇯🇴 Jordan vs 🇦🇷 Argentina</span><span class="fixture-meta">Dallas · 12:00pm AEST</span></div>
       </div>
     </div>
 
@@ -308,50 +309,48 @@
         <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp A vs Runner-up Grp B</span><span class="fixture-meta">Los Angeles · 5:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Tuesday 30 June</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp E vs Best 3rd (A/B/C/D/F)</span><span class="fixture-meta">Boston · 3:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp F vs Runner-up Grp C</span><span class="fixture-meta">Houston · 6:30am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp C vs Runner-up Grp F</span><span class="fixture-meta">Monterrey · 11:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp C vs Runner-up Grp F</span><span class="fixture-meta">Houston · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp E vs Best 3rd (A/B/C/D/F)</span><span class="fixture-meta">Boston · 6:30am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp F vs Runner-up Grp C</span><span class="fixture-meta">Monterrey · 11:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Wednesday 1 July</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp A vs Best 3rd (C/E/F/H/I)</span><span class="fixture-meta">New York/NJ · 5:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp L vs Best 3rd (E/H/I/J/K)</span><span class="fixture-meta">Dallas · 11:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp E vs Runner-up Grp I</span><span class="fixture-meta">Dallas · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp I vs Best 3rd (C/D/F/G/H)</span><span class="fixture-meta">New York/NJ · 7:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp A vs Best 3rd (C/E/F/H/I)</span><span class="fixture-meta">Mexico City · 11:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Thursday 2 July</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp I vs Best 3rd (C/D/F/G/H)</span><span class="fixture-meta">Atlanta · 2:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp E vs Runner-up Grp I</span><span class="fixture-meta">San Francisco · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp L vs Best 3rd (E/H/I/J/K)</span><span class="fixture-meta">Atlanta · 2:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp G vs Best 3rd (A/E/H/I/J)</span><span class="fixture-meta">Seattle · 6:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp D vs Best 3rd (B/E/F/I/J)</span><span class="fixture-meta">SF Bay Area · 10:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Friday 3 July</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp B vs Best 3rd (E/F/G/I/J)</span><span class="fixture-meta">Toronto · 5:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp D vs Runner-up Grp G</span><span class="fixture-meta">Vancouver · 11:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp H vs Runner-up Grp J</span><span class="fixture-meta">Los Angeles · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp K vs Runner-up Grp L</span><span class="fixture-meta">Toronto · 9:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp B vs Best 3rd (E/F/G/I/J)</span><span class="fixture-meta">Vancouver · 1:00pm AEST</span></div>
       </div>
-      <div class="date-group"><div class="date-label">Friday 3 July</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp D vs Best 3rd (B/E/F/I/J)</span><span class="fixture-meta">Seattle · 5:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp G vs Best 3rd (A/E/H/I/J)</span><span class="fixture-meta">Dallas · 5:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp K vs Runner-up Grp L</span><span class="fixture-meta">Miami · 8:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp H vs Runner-up Grp J</span><span class="fixture-meta">Kansas City · 11:00am AEST</span></div>
-      </div>
-      <div class="date-group"><div class="date-label">Saturday 4 – Sunday 5 July (TBC)</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp J vs Runner-up Grp H</span><span class="fixture-meta">TBC</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp K vs Best 3rd (D/E/I/J/L)</span><span class="fixture-meta">TBC</span></div>
+      <div class="date-group"><div class="date-label">Saturday 4 July</div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Runner-up Grp D vs Runner-up Grp G</span><span class="fixture-meta">Dallas · 4:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp J vs Runner-up Grp H</span><span class="fixture-meta">Miami · 8:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R32</span><span class="fixture-teams">Winner Grp K vs Best 3rd (D/E/I/J/L)</span><span class="fixture-meta">Kansas City · 11:30am AEST</span></div>
       </div>
     </div>
 
     <div class="md-panel" id="md-panel-5">
       <div class="date-group"><div class="date-label">Sunday 5 July</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M1 vs Winner R32 M2</span><span class="fixture-meta">Houston · 3:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M3 vs Winner R32 M4</span><span class="fixture-meta">New York/NJ · 7:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M73 vs Winner R32 M75</span><span class="fixture-meta">Houston · 3:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M74 vs Winner R32 M77</span><span class="fixture-meta">Philadelphia · 7:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Monday 6 July</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M5 vs Winner R32 M6</span><span class="fixture-meta">San Francisco · 5:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M7 vs Winner R32 M8</span><span class="fixture-meta">Mexico City · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M76 vs Winner R32 M78</span><span class="fixture-meta">New York/NJ · 6:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M79 vs Winner R32 M80</span><span class="fixture-meta">Mexico City · 10:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Tuesday 7 July</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M9 vs Winner R32 M10</span><span class="fixture-meta">Dallas · 5:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M11 vs Winner R32 M12</span><span class="fixture-meta">Seattle · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M83 vs Winner R32 M84</span><span class="fixture-meta">Dallas · 5:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M81 vs Winner R32 M82</span><span class="fixture-meta">Seattle · 10:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Wednesday 8 July</div>
-        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M13 vs Winner R32 M14</span><span class="fixture-meta">Atlanta · 5:00am AEST</span></div>
-        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M15 vs Winner R32 M16</span><span class="fixture-meta">Philadelphia · 10:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M86 vs Winner R32 M88</span><span class="fixture-meta">Atlanta · 2:00am AEST</span></div>
+        <div class="fixture-row"><span class="fixture-group-badge">R16</span><span class="fixture-teams">Winner R32 M85 vs Winner R32 M87</span><span class="fixture-meta">Vancouver · 6:00am AEST</span></div>
       </div>
     </div>
 
@@ -389,8 +388,7 @@
         📅 Sunday 19 July 2026 · Kick-off 3:00pm EDT / <strong style="color:var(--text)">5:00am AEST (Mon 20 July)</strong><br>
         👥 Capacity: 82,500
       </div>
-    </div>
-  </div>
+    </div></div>
 </div>
 
 <div class="form-section" id="enter">
@@ -401,7 +399,7 @@
     <div class="buyin-notice">💰 <span>Remember to pay your <strong>$50 buy-in</strong> via bank transfer before your tips count. Contact your organiser for details.</span></div>
 
     <iframe name="hidden-submit-frame" id="hidden-submit-frame" style="display:none"></iframe>
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbz4XMyubm5D2ZRlNoCC3zflE9c8JqoWacn7JmxmzPy44s-aPWt7NIhRcM7T3oHOJeoGKw/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbz9mW6lOmcy7oMhijeJBDhuh_3512dI4tCcAl0H9tkrmupfXB6mZSv77jy4qP-vqJeorg/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -589,10 +587,10 @@
     {day:'Fri 26 Jun',id:'d6',g:'D',teams:'🇵🇾 Paraguay vs 🇦🇺 Australia',date:'26 Jun · 12:00pm AEST',ko:'2026-06-26T02:00:00Z'},
     {day:'Sat 27 Jun',id:'i5',g:'I',teams:'🇳🇴 Norway vs 🇫🇷 France',date:'27 Jun · 5:00am AEST',ko:'2026-06-26T19:00:00Z'},
     {day:'Sat 27 Jun',id:'i6',g:'I',teams:'🇸🇳 Senegal vs 🇮🇶 Iraq',date:'27 Jun · 5:00am AEST',ko:'2026-06-26T19:00:00Z'},
-    {day:'Sat 27 Jun',id:'g5',g:'G',teams:'🇪🇬 Egypt vs 🇮🇷 IR Iran',date:'27 Jun · 1:00pm AEST',ko:'2026-06-27T03:00:00Z'},
-    {day:'Sat 27 Jun',id:'g6',g:'G',teams:'🇳🇿 New Zealand vs 🇧🇪 Belgium',date:'27 Jun · 1:00pm AEST',ko:'2026-06-27T03:00:00Z'},
     {day:'Sat 27 Jun',id:'h5',g:'H',teams:'🇨🇻 Cabo Verde vs 🇸🇦 Saudi Arabia',date:'27 Jun · 10:00am AEST',ko:'2026-06-27T00:00:00Z'},
     {day:'Sat 27 Jun',id:'h6',g:'H',teams:'🇺🇾 Uruguay vs 🇪🇸 Spain',date:'27 Jun · 10:00am AEST',ko:'2026-06-27T00:00:00Z'},
+    {day:'Sat 27 Jun',id:'g5',g:'G',teams:'🇪🇬 Egypt vs 🇮🇷 IR Iran',date:'27 Jun · 1:00pm AEST',ko:'2026-06-27T03:00:00Z'},
+    {day:'Sat 27 Jun',id:'g6',g:'G',teams:'🇳🇿 New Zealand vs 🇧🇪 Belgium',date:'27 Jun · 1:00pm AEST',ko:'2026-06-27T03:00:00Z'},
     {day:'Sun 28 Jun',id:'l5',g:'L',teams:'🇵🇦 Panama vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England',date:'28 Jun · 7:00am AEST',ko:'2026-06-27T21:00:00Z'},
     {day:'Sun 28 Jun',id:'l6',g:'L',teams:'🇭🇷 Croatia vs 🇬🇭 Ghana',date:'28 Jun · 7:00am AEST',ko:'2026-06-27T21:00:00Z'},
     {day:'Sun 28 Jun',id:'k5',g:'K',teams:'🇨🇴 Colombia vs 🇵🇹 Portugal',date:'28 Jun · 9:30am AEST',ko:'2026-06-27T23:30:00Z'},
