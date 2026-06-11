@@ -152,7 +152,7 @@
 </section>
 
 <div class="countdown-section">
-  <div class="countdown-label" id="countdown-label">Matchday 1 tips close in</div>
+  <div class="countdown-label" id="countdown-label">Next match locks in</div>
   <div class="countdown-timer">
     <div class="countdown-unit"><div class="countdown-num" id="cd-days">--</div><div class="countdown-unit-label">Days</div></div>
     <div class="countdown-sep">:</div>
@@ -162,7 +162,7 @@
     <div class="countdown-sep">:</div>
     <div class="countdown-unit"><div class="countdown-num" id="cd-secs">--</div><div class="countdown-unit-label">Secs</div></div>
   </div>
-  <div class="deadline-note">MD1 tips deadline: <strong id="deadline-display"></strong></div>
+  <div class="deadline-note">Each match locks <strong>30 minutes before kick-off</strong> — tips cannot be changed after that</div>
 </div>
 
 <section class="section">
@@ -395,7 +395,7 @@
 <div class="form-section" id="enter">
   <div class="form-inner">
     <div class="form-heading">Submit <span>your tips</span></div>
-    <p class="form-subheading">Enter your details and tips for each matchday below. Submit each matchday before the deadline.</p>
+    <p class="form-subheading">Enter your tips below. Each match locks 30 minutes before kick-off — you can edit your tips right up until then.</p>
     <div class="closed-notice" id="closed-notice"></div>
     <div class="buyin-notice">💰 <span>Remember to pay your <strong>$50 buy-in</strong> via bank transfer before your tips count. Contact your organiser for details.</span></div>
 
@@ -756,14 +756,31 @@
     }
   }, 100);
 
-  const countdownTarget = activeMD ? DEADLINES[activeMD] : DEADLINES[3];
+  // Find next match that hasn't locked yet
+  function getNextLockTime() {
+    const now = new Date();
+    const upcoming = ALL_MATCHES
+      .map(m => MATCH_DEADLINES[m.id])
+      .filter(d => d && d > now)
+      .sort((a,b) => a-b);
+    return upcoming.length > 0 ? upcoming[0] : null;
+  }
+
   function updateCountdown() {
-    const diff = countdownTarget - new Date();
-    if (diff <= 0) {
+    const target = getNextLockTime();
+    if (!target) {
       ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent='00');
-      document.getElementById('countdown-label').textContent = 'Tips closed';
-      lockForm(activeMD || 3);
+      document.getElementById('countdown-label').textContent = 'All matches locked';
       return;
+    }
+    const diff = target - new Date();
+    if (diff <= 0) {
+      updateCountdown(); return;
+    }
+    // Find which match this is
+    const nextMatch = ALL_MATCHES.find(m => MATCH_DEADLINES[m.id] && Math.abs(MATCH_DEADLINES[m.id] - target) < 1000);
+    if (nextMatch) {
+      document.getElementById('countdown-label').textContent = 'Next lock: ' + nextMatch.teams + ' (' + nextMatch.date + ')';
     }
     document.getElementById('cd-days').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
     document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
