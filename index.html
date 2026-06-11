@@ -113,6 +113,19 @@
   .success-state p { color: var(--muted); font-size: 15px; }
   .closed-notice { display: none; background: rgba(255,50,50,0.08); border: 1px solid rgba(255,50,50,0.25); border-radius: 5px; padding: 12px 16px; font-size: 14px; color: #ff6b6b; margin-bottom: 1.5rem; text-align: center; }
 
+  .leaderboard-section { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .leaderboard-inner { max-width: 700px; margin: 0 auto; padding: 4rem 1.5rem; }
+  .lb-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .lb-table th { background: var(--green); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 12px; text-align: left; }
+  .lb-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .lb-table tr:nth-child(even) td { background: var(--bg3); }
+  .lb-rank { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.1rem; color: var(--muted); width: 40px; }
+  .lb-rank.gold   { color: #f59e0b; }
+  .lb-rank.silver { color: #9ca3af; }
+  .lb-rank.bronze { color: #cd7c2f; }
+  .lb-name { font-weight: 600; }
+  .lb-pts  { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; text-align: center; }
+  .lb-total { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.1rem; color: var(--green); text-align: center; }
   footer { text-align: center; padding: 2rem 1.5rem; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
 
   .field-error input { border: 1px solid #CC1122 !important; }
@@ -148,7 +161,10 @@
     <div class="hero-stat"><div class="hero-stat-val">$500+</div><div class="hero-stat-label">Win</div></div>
     <div class="hero-stat"><div class="hero-stat-val">2pts</div><div class="hero-stat-label">Max per match</div></div>
   </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.5s 0.4s ease both;">
   <a href="#enter" class="cta-btn">Enter now →</a>
+  <a href="#leaderboard" class="cta-btn" style="background:transparent;border:2px solid var(--green);color:var(--green);">View leaderboard</a>
+</div>
 </section>
 
 <div class="countdown-section">
@@ -392,6 +408,17 @@
     </div></div>
 </div>
 
+<div class="leaderboard-section" id="leaderboard">
+  <div class="leaderboard-inner">
+    <div class="section-heading">Live <span>Leaderboard</span></div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;">Updates after each game. Points: 1 for correct result + 1 bonus for exact score.</p>
+    <div id="leaderboard-table">
+      <div style="text-align:center;padding:2rem;color:var(--muted);font-size:14px;">Loading leaderboard...</div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:1rem;text-align:center;">🔄 Refreshes automatically</p>
+  </div>
+</div>
+
 <div class="form-section" id="enter">
   <div class="form-inner">
     <div class="form-heading">Submit <span>your tips</span></div>
@@ -400,7 +427,7 @@
     <div class="buyin-notice">💰 <span>Remember to pay your <strong>$50 buy-in</strong> via bank transfer before your tips count. Contact your organiser for details.</span></div>
 
     <iframe name="hidden-submit-frame" id="hidden-submit-frame" style="display:none"></iframe>
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbw-3cgr4Ou01ixs50jIvOmucS9tHBVyQgw1RXaW_Sm8aoQxDQBkbjnpAsJLh7hqPu19wQ/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbxsmwIGngu9II5pOEnmBPzDvSWVWlkzs3Wb9hjONP3yS2evxQtQ-6DVGbU4kLI8U1DD6g/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -875,6 +902,31 @@
   document.getElementById('modal-go-back').addEventListener('click', () => closeModal('confirm-modal'));
   document.getElementById('modal-submit-anyway').addEventListener('click', function() { closeModal('confirm-modal'); doSubmit(); });
   document.getElementById('confirm-modal').addEventListener('click', function(e) { if (e.target===this) closeModal(this.id); });
+
+  // ── LEADERBOARD FETCH ─────────────────────────────────────
+  function loadLeaderboard() {
+    fetch('https://script.google.com/macros/s/AKfycbxsmwIGngu9II5pOEnmBPzDvSWVWlkzs3Wb9hjONP3yS2evxQtQ-6DVGbU4kLI8U1DD6g/exec?action=leaderboard')
+      .then(r => r.json())
+      .then(data => {
+        if (!data || !data.rows || data.rows.length === 0) {
+          document.getElementById('leaderboard-table').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);font-size:14px;">No results yet — check back after the first game!</div>';
+          return;
+        }
+        let html = '<table class="lb-table"><thead><tr><th>#</th><th>Name</th><th style="text-align:center">Result Pts</th><th style="text-align:center">Score Pts</th><th style="text-align:center">Total</th></tr></thead><tbody>';
+        data.rows.forEach((row, i) => {
+          const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+          const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '';
+          html += '<tr><td class="lb-rank ' + rankClass + '">' + (medal || row[0]) + '</td><td class="lb-name">' + row[1] + '</td><td class="lb-pts">' + row[2] + '</td><td class="lb-pts">' + row[3] + '</td><td class="lb-total">' + row[4] + '</td></tr>';
+        });
+        html += '</tbody></table>';
+        document.getElementById('leaderboard-table').innerHTML = html;
+      })
+      .catch(() => {
+        document.getElementById('leaderboard-table').innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);font-size:14px;">Leaderboard unavailable right now.</div>';
+      });
+  }
+  loadLeaderboard();
+  setInterval(loadLeaderboard, 5 * 60 * 1000); // refresh every 5 mins
 
 
 
