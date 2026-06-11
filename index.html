@@ -162,7 +162,7 @@
     <div class="countdown-sep">:</div>
     <div class="countdown-unit"><div class="countdown-num" id="cd-secs">--</div><div class="countdown-unit-label">Secs</div></div>
   </div>
-  <div class="deadline-note">Each match locks <strong>30 minutes before kick-off</strong> — tips cannot be changed after that</div>
+  <div class="deadline-note">Tips lock <strong>30 minutes before each game</strong></div>
 </div>
 
 <section class="section">
@@ -693,7 +693,7 @@
     3: new Date('2026-06-24T18:30:00Z'),
   };
 
-  document.getElementById('deadline-display').textContent = DEADLINES[1].toLocaleString('en-AU', {weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZoneName:'short'});
+
 
   function lockForm(mdNum) {
     const notice = document.getElementById('closed-notice');
@@ -756,32 +756,25 @@
     }
   }, 100);
 
-  // Find next match that hasn't locked yet
-  function getNextLockTime() {
+  function getNextKickoff() {
     const now = new Date();
     const upcoming = ALL_MATCHES
-      .map(m => MATCH_DEADLINES[m.id])
-      .filter(d => d && d > now)
-      .sort((a,b) => a-b);
+      .map(m => ({match: m, ko: new Date(m.ko)}))
+      .filter(x => x.ko > now)
+      .sort((a,b) => a.ko - b.ko);
     return upcoming.length > 0 ? upcoming[0] : null;
   }
 
   function updateCountdown() {
-    const target = getNextLockTime();
-    if (!target) {
+    const next = getNextKickoff();
+    if (!next) {
       ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent='00');
-      document.getElementById('countdown-label').textContent = 'All matches locked';
+      document.getElementById('countdown-label').textContent = 'Group stage complete';
       return;
     }
-    const diff = target - new Date();
-    if (diff <= 0) {
-      updateCountdown(); return;
-    }
-    // Find which match this is
-    const nextMatch = ALL_MATCHES.find(m => MATCH_DEADLINES[m.id] && Math.abs(MATCH_DEADLINES[m.id] - target) < 1000);
-    if (nextMatch) {
-      document.getElementById('countdown-label').textContent = 'Next lock: ' + nextMatch.teams + ' (' + nextMatch.date + ')';
-    }
+    const diff = next.ko - new Date();
+    if (diff <= 0) { updateCountdown(); return; }
+    document.getElementById('countdown-label').textContent = 'Next game: ' + next.match.teams + ' · ' + next.match.date;
     document.getElementById('cd-days').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
     document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
     document.getElementById('cd-mins').textContent  = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
@@ -885,6 +878,8 @@
   document.getElementById('modal-go-back').addEventListener('click', () => closeModal('confirm-modal'));
   document.getElementById('modal-submit-anyway').addEventListener('click', function() { closeModal('confirm-modal'); doSubmit(); });
   document.getElementById('confirm-modal').addEventListener('click', function(e) { if (e.target===this) closeModal(this.id); });
+
+
 
   document.getElementById('tips-form').addEventListener('submit', function(e) {
     e.preventDefault();
