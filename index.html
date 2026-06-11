@@ -705,16 +705,13 @@
     if (sb) sb.style.background = '#444';
   }
 
-  function checkDeadlines() {
-    const now = new Date();
-    let active = null;
-    for (let md = 1; md <= 3; md++) { if (now < DEADLINES[md]) { active = md; break; } }
-    if (!active) lockForm(3);
-    else if (active > 1) lockForm(active - 1);
-    return active;
+  // Don't lock the whole form — per-match locking handles individual games
+  let activeMD = 1;
+  const now = new Date();
+  for (let md = 1; md <= 3; md++) {
+    if (now >= DEADLINES[md]) activeMD = md + 1;
   }
-
-  let activeMD = checkDeadlines();
+  if (activeMD > 3) activeMD = 3;
 
   const STORAGE_KEY = 'wc2026_tips';
 
