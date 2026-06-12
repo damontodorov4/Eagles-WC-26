@@ -437,7 +437,7 @@
       <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
 
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbxiut1CNGKQzMq4XDGvW1eykVj14Daz4UijsWMozPVc6hQEmEACH1WI3V5XJgTT4SeS0A/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbw0VoWz_Cz49kXBSCvqFA_bPUW2SzqwxJMgzPWQYstjgyH8X8Ew37h9oZt_IwDtcNr9/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -926,7 +926,7 @@
     var msg   = document.getElementById('restore-msg');
     if (!name || !phone) { msg.style.color = '#f87171'; msg.textContent = 'Please enter your name and phone.'; return; }
     msg.style.color = 'var(--muted)'; msg.textContent = 'Looking up your tips...';
-    var url = 'https://script.google.com/macros/s/AKfycbxiut1CNGKQzMq4XDGvW1eykVj14Daz4UijsWMozPVc6hQEmEACH1WI3V5XJgTT4SeS0A/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
+    var url = 'https://script.google.com/macros/s/AKfycbw0VoWz_Cz49kXBSCvqFA_bPUW2SzqwxJMgzPWQYstjgyH8X8Ew37h9oZt_IwDtcNr9/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -938,12 +938,22 @@
         // Restore name and phone
         document.getElementById('name').value  = data.name  || name;
         document.getElementById('phone').value = data.phone || phone;
-        // Restore all match tips into form fields
-        Object.entries(data).forEach(function(kv) {
-          var el = document.querySelector('[name="' + kv[0] + '"]');
-          if (el) el.value = kv[1];
-        });
-        restoreBubbles();
+        // Restore all match tips — use small delay to ensure form is ready
+        setTimeout(function() {
+          Object.entries(data).forEach(function(kv) {
+            if (kv[0] === 'found' || kv[0] === 'name' || kv[0] === 'phone') return;
+            var el = document.querySelector('[name="' + kv[0] + '"]');
+            if (el) {
+              // For number inputs default empty to 0
+              if (el.type === 'number') {
+                el.value = (kv[1] === '' || kv[1] === null || kv[1] === undefined) ? '0' : kv[1];
+              } else {
+                el.value = kv[1];
+              }
+            }
+          });
+          restoreBubbles();
+        }, 200);
         // Save to localStorage
         var saved = {savedAt: new Date().toISOString()};
         Object.assign(saved, data);
@@ -962,7 +972,7 @@
 
   // ── LEADERBOARD FETCH ─────────────────────────────────────
   function loadLeaderboard() {
-    fetch('https://script.google.com/macros/s/AKfycbxiut1CNGKQzMq4XDGvW1eykVj14Daz4UijsWMozPVc6hQEmEACH1WI3V5XJgTT4SeS0A/exec?action=leaderboard')
+    fetch('https://script.google.com/macros/s/AKfycbw0VoWz_Cz49kXBSCvqFA_bPUW2SzqwxJMgzPWQYstjgyH8X8Ew37h9oZt_IwDtcNr9/exec?action=leaderboard')
       .then(r => r.json())
       .then(data => {
         if (!data || !data.rows || data.rows.length === 0) {
