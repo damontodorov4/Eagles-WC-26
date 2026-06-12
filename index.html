@@ -437,7 +437,7 @@
       <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
 
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbyZR41uV6h1sJBC7Gqp_I9z8sIqATPgrzK7c5mbRzROHyoWdJws9ZaGuI-M7FYJhYm0nQ/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbzVQm7F6fEiy_AjMRZ4UT6AaZ7gako_Veriv4Bp-1zvpjTwnWQzG1-TyB0vddRbb8AYHw/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -691,15 +691,23 @@
     el.classList.add('selected');
   };
 
+  function normText(s) {
+    return String(s||'').replace(/[^\w\s]/g,'').replace(/\s+/g,' ').trim().toLowerCase();
+  }
+
   function restoreBubbles() {
     ALL_MATCHES.forEach(m => {
       const hidden = document.getElementById('sel-'+m.id);
-      if (hidden && hidden.value) {
-        document.querySelectorAll('#bubbles-'+m.id+' .bubble').forEach(b => {
-          const oc = b.getAttribute('onclick') || '';
-          if (oc.indexOf(hidden.value) > -1) b.classList.add('selected');
-        });
-      }
+      if (!hidden || !hidden.value) return;
+      const normVal = normText(hidden.value);
+      document.querySelectorAll('#bubbles-'+m.id+' .bubble').forEach(b => {
+        const oc = b.getAttribute('onclick') || '';
+        // Extract the value from onclick e.g. selectBubble('a1','Mexico win',this)
+        const match = oc.match(/selectBubble\('[^']+','([^']+)'/);
+        if (match && normText(match[1]) === normVal) {
+          b.classList.add('selected');
+        }
+      });
     });
   }
 
@@ -926,7 +934,7 @@
     var msg   = document.getElementById('restore-msg');
     if (!name || !phone) { msg.style.color = '#f87171'; msg.textContent = 'Please enter your name and phone.'; return; }
     msg.style.color = 'var(--muted)'; msg.textContent = 'Looking up your tips...';
-    var url = 'https://script.google.com/macros/s/AKfycbyZR41uV6h1sJBC7Gqp_I9z8sIqATPgrzK7c5mbRzROHyoWdJws9ZaGuI-M7FYJhYm0nQ/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
+    var url = 'https://script.google.com/macros/s/AKfycbzVQm7F6fEiy_AjMRZ4UT6AaZ7gako_Veriv4Bp-1zvpjTwnWQzG1-TyB0vddRbb8AYHw/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -946,9 +954,10 @@
             if (el) {
               // For number inputs default empty to 0
               if (el.type === 'number') {
-                el.value = (kv[1] === '' || kv[1] === null || kv[1] === undefined) ? '0' : kv[1];
+                var numVal = String(kv[1] || '').trim();
+                el.value = (numVal === '' || isNaN(numVal)) ? '0' : numVal;
               } else {
-                el.value = kv[1];
+                el.value = kv[1] || '';
               }
             }
           });
@@ -972,7 +981,7 @@
 
   // ── LEADERBOARD FETCH ─────────────────────────────────────
   function loadLeaderboard() {
-    fetch('https://script.google.com/macros/s/AKfycbyZR41uV6h1sJBC7Gqp_I9z8sIqATPgrzK7c5mbRzROHyoWdJws9ZaGuI-M7FYJhYm0nQ/exec?action=leaderboard')
+    fetch('https://script.google.com/macros/s/AKfycbzVQm7F6fEiy_AjMRZ4UT6AaZ7gako_Veriv4Bp-1zvpjTwnWQzG1-TyB0vddRbb8AYHw/exec?action=leaderboard')
       .then(r => r.json())
       .then(data => {
         if (!data || !data.rows || data.rows.length === 0) {
