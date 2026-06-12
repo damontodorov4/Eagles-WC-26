@@ -427,7 +427,17 @@
     <div class="buyin-notice">💰 <span>Remember to pay your <strong>$50 buy-in</strong> via bank transfer before your tips count. Contact your organiser for details.</span></div>
 
     <iframe name="hidden-submit-frame" id="hidden-submit-frame" style="display:none"></iframe>
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbxsmwIGngu9II5pOEnmBPzDvSWVWlkzs3Wb9hjONP3yS2evxQtQ-6DVGbU4kLI8U1DD6g/exec" method="POST" target="hidden-submit-frame">
+    <div id="restore-banner" style="display:none;background:rgba(204,17,34,0.06);border:1px solid rgba(204,17,34,0.2);border-radius:6px;padding:14px 16px;margin-bottom:1.5rem;font-size:14px;">
+      ⚠️ <strong>No saved tips found on this device.</strong> If you've already submitted, enter your name and phone to restore them.
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <input type="text" id="restore-name" placeholder="Full name" style="flex:1;min-width:140px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:Barlow,sans-serif;font-size:15px;padding:9px 12px;outline:none;">
+        <input type="tel" id="restore-phone" placeholder="Phone number" style="flex:1;min-width:140px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;color:var(--text);font-family:Barlow,sans-serif;font-size:15px;padding:9px 12px;outline:none;">
+        <button type="button" onclick="restoreTipsFromSheet()" style="background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.05em;text-transform:uppercase;padding:9px 18px;border:none;border-radius:4px;cursor:pointer;white-space:nowrap;">Restore tips</button>
+      </div>
+      <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
+    </div>
+
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbxiut1CNGKQzMq4XDGvW1eykVj14Daz4UijsWMozPVc6hQEmEACH1WI3V5XJgTT4SeS0A/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -903,9 +913,56 @@
   document.getElementById('modal-submit-anyway').addEventListener('click', function() { closeModal('confirm-modal'); doSubmit(); });
   document.getElementById('confirm-modal').addEventListener('click', function(e) { if (e.target===this) closeModal(this.id); });
 
+  // Show restore banner if no saved tips
+  setTimeout(function() {
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      document.getElementById('restore-banner').style.display = 'block';
+    }
+  }, 300);
+
+  window.restoreTipsFromSheet = function() {
+    var name  = document.getElementById('restore-name').value.trim();
+    var phone = document.getElementById('restore-phone').value.trim();
+    var msg   = document.getElementById('restore-msg');
+    if (!name || !phone) { msg.style.color = '#f87171'; msg.textContent = 'Please enter your name and phone.'; return; }
+    msg.style.color = 'var(--muted)'; msg.textContent = 'Looking up your tips...';
+    var url = 'https://script.google.com/macros/s/AKfycbxiut1CNGKQzMq4XDGvW1eykVj14Daz4UijsWMozPVc6hQEmEACH1WI3V5XJgTT4SeS0A/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data || data.error || !data.found) {
+          msg.style.color = '#f87171';
+          msg.textContent = '❌ No tips found for that name and phone. Try again or enter your tips fresh.';
+          return;
+        }
+        // Restore name and phone
+        document.getElementById('name').value  = data.name  || name;
+        document.getElementById('phone').value = data.phone || phone;
+        // Restore all match tips into form fields
+        Object.entries(data).forEach(function(kv) {
+          var el = document.querySelector('[name="' + kv[0] + '"]');
+          if (el) el.value = kv[1];
+        });
+        restoreBubbles();
+        // Save to localStorage
+        var saved = {savedAt: new Date().toISOString()};
+        Object.assign(saved, data);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+        showSavedBanner(saved.savedAt);
+        document.getElementById('restore-banner').style.display = 'none';
+        document.getElementById('final-submit-section').style.display = 'block';
+        msg.style.color = '#22c55e';
+        msg.textContent = '✅ Tips restored successfully!';
+      })
+      .catch(function() {
+        msg.style.color = '#f87171';
+        msg.textContent = '❌ Something went wrong. Please try again.';
+      });
+  };
+
   // ── LEADERBOARD FETCH ─────────────────────────────────────
   function loadLeaderboard() {
-    fetch('https://script.google.com/macros/s/AKfycbxsmwIGngu9II5pOEnmBPzDvSWVWlkzs3Wb9hjONP3yS2evxQtQ-6DVGbU4kLI8U1DD6g/exec?action=leaderboard')
+    fetch('https://script.google.com/macros/s/AKfycbxiut1CNGKQzMq4XDGvW1eykVj14Daz4UijsWMozPVc6hQEmEACH1WI3V5XJgTT4SeS0A/exec?action=leaderboard')
       .then(r => r.json())
       .then(data => {
         if (!data || !data.rows || data.rows.length === 0) {
