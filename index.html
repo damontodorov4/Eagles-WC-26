@@ -969,13 +969,8 @@
   document.getElementById('confirm-modal').addEventListener('click', function(e) { if (e.target===this) closeModal(this.id); });
 
   // ── WHO TIPPED WHAT ───────────────────────────────────────
-  // ⬇️ Change false to true to make Who Tipped What go live
-  var WHO_TIPPED_LIVE = true;
-  var WTW_DEADLINES = {
-    1: new Date('2026-06-11T18:30:00Z'),
-    2: new Date('2026-06-18T15:30:00Z'),
-    3: new Date('2026-06-24T18:30:00Z'),
-  };
+  // ⬇️ Set each matchday to true when you want tips to go live
+  var WTW_LIVE = { 1: false, 2: false, 3: false };
 
   var WTW_MATCHES = {
     1: MD1,
@@ -997,8 +992,8 @@
 
   function loadWTW(md) {
     var el = document.getElementById('wtw-content-' + md);
-    if (!WHO_TIPPED_LIVE) {
-      el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);">⏳ Tips will appear here as results are entered — check back after each game!</div>';
+    if (!WTW_LIVE[md]) {
+      el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);">Matchday '+md+' tips coming soon!</div>';
       return;
     }
     wtwLoaded[md] = true;
