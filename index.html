@@ -970,7 +970,7 @@
 
   // ── WHO TIPPED WHAT ───────────────────────────────────────
   // ⬇️ Change false to true to make Who Tipped What go live
-  var WHO_TIPPED_LIVE = true;
+  var WHO_TIPPED_LIVE = false;
   var WTW_DEADLINES = {
     1: new Date('2026-06-11T18:30:00Z'),
     2: new Date('2026-06-18T15:30:00Z'),
@@ -998,7 +998,7 @@
   function loadWTW(md) {
     var el = document.getElementById('wtw-content-' + md);
     if (!WHO_TIPPED_LIVE) {
-      el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);">⏳ Who Tipped What will go live after Matchday 1 — check back soon!</div>';
+      el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);">⏳ Tips will appear here as results are entered — check back after each game!</div>';
       return;
     }
     wtwLoaded[md] = true;
