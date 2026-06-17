@@ -448,7 +448,7 @@
       <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
 
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbwKyRtgN_AO0e_egh7TfNcmEn9pmf8_5S8zPcRY39psMwVvqDDTJJoQt2SzYl_UlcJQcQ/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbzJ8bll7Xxg0XScimuqzDNXzNCHZL79maV12YX3QY4uW2aHsi75SFw5r01A7s5V5bz6/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -797,7 +797,7 @@
     if (sb) sb.style.background = '#444';
   }
 
-  // Don't lock the le form — per-match locking handles individual games
+  // Don't lock the whole form — per-match locking handles individual games
   let activeMD = 1;
   const now = new Date();
   for (let md = 1; md <= 3; md++) {
@@ -970,7 +970,7 @@
 
   // ── WHO TIPPED WHAT ───────────────────────────────────────
   // ⬇️ Change false to true to make Who Tipped What go live
-  var WHO_TIPPED_LIVE =true;
+  var WHO_TIPPED_LIVE = true;
   var WTW_DEADLINES = {
     1: new Date('2026-06-11T18:30:00Z'),
     2: new Date('2026-06-18T15:30:00Z'),
@@ -1004,7 +1004,7 @@
     wtwLoaded[md] = true;
     el.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--muted);">Loading tips...</div>';
 
-    fetch('https://script.google.com/macros/s/AKfycbwKyRtgN_AO0e_egh7TfNcmEn9pmf8_5S8zPcRY39psMwVvqDDTJJoQt2SzYl_UlcJQcQ/exec?action=whoTipped&md='+md)
+    fetch('https://script.google.com/macros/s/AKfycbzJ8bll7Xxg0XScimuqzDNXzNCHZL79maV12YX3QY4uW2aHsi75SFw5r01A7s5V5bz6/exec?action=whoTipped&md='+md)
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (!data || data.error || !data.tippers || data.tippers.length === 0) {
@@ -1056,7 +1056,7 @@
     var msg   = document.getElementById('restore-msg');
     if (!name || !phone) { msg.style.color = '#f87171'; msg.textContent = 'Please enter your name and phone.'; return; }
     msg.style.color = 'var(--muted)'; msg.textContent = 'Looking up your tips...';
-    var url = 'https://script.google.com/macros/s/AKfycbwKyRtgN_AO0e_egh7TfNcmEn9pmf8_5S8zPcRY39psMwVvqDDTJJoQt2SzYl_UlcJQcQ/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
+    var url = 'https://script.google.com/macros/s/AKfycbzJ8bll7Xxg0XScimuqzDNXzNCHZL79maV12YX3QY4uW2aHsi75SFw5r01A7s5V5bz6/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -1103,7 +1103,7 @@
 
   // ── LEADERBOARD FETCH ─────────────────────────────────────
   function loadLeaderboard() {
-    fetch('https://script.google.com/macros/s/AKfycbwKyRtgN_AO0e_egh7TfNcmEn9pmf8_5S8zPcRY39psMwVvqDDTJJoQt2SzYl_UlcJQcQ/exec?action=leaderboard')
+    fetch('https://script.google.com/macros/s/AKfycbzJ8bll7Xxg0XScimuqzDNXzNCHZL79maV12YX3QY4uW2aHsi75SFw5r01A7s5V5bz6/exec?action=leaderboard')
       .then(r => r.json())
       .then(data => {
         if (!data || !data.rows || data.rows.length === 0) {
