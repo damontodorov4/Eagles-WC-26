@@ -969,6 +969,8 @@
   document.getElementById('confirm-modal').addEventListener('click', function(e) { if (e.target===this) closeModal(this.id); });
 
   // ── WHO TIPPED WHAT ───────────────────────────────────────
+  // ⬇️ Change false to true to make Who Tipped What go live
+  var WHO_TIPPED_LIVE = false;
   var WTW_DEADLINES = {
     1: new Date('2026-06-11T18:30:00Z'),
     2: new Date('2026-06-18T15:30:00Z'),
@@ -995,6 +997,10 @@
 
   function loadWTW(md) {
     var el = document.getElementById('wtw-content-' + md);
+    if (!WHO_TIPPED_LIVE) {
+      el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);">⏳ Who Tipped What will go live after Matchday 1 — check back soon!</div>';
+      return;
+    }
     wtwLoaded[md] = true;
     el.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--muted);">Loading tips...</div>';
 
