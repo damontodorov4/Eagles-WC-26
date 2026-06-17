@@ -126,6 +126,17 @@
   .lb-name { font-weight: 600; }
   .lb-pts  { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; text-align: center; }
   .lb-total { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.1rem; color: var(--green); text-align: center; }
+  .wtw-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 6px; }
+  .wtw-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 500px; }
+  .wtw-table th { background: #CC1122; color: #fff; font-weight: 600; font-size: 11px; padding: 9px 8px; text-align: left; white-space: nowrap; }
+  .wtw-table th.match-col { text-align: center; min-width: 90px; }
+  .wtw-table td { padding: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .wtw-table tr:last-child td { border-bottom: none; }
+  .wtw-table tr:nth-child(even) td { background: var(--bg2); }
+  .tip-pill { display: inline-block; text-align: center; border-radius: 3px; padding: 2px 5px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+  .tip-correct { background: #c6efce; color: #276221; }
+  .tip-wrong   { background: #ffc7ce; color: #9c0006; }
+  .tip-pending { background: var(--bg3); color: var(--muted); border: 1px solid var(--border); }
   footer { text-align: center; padding: 2rem 1.5rem; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
 
   .field-error input { border: 1px solid #CC1122 !important; }
@@ -437,7 +448,7 @@
       <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
 
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbzVQm7F6fEiy_AjMRZ4UT6AaZ7gako_Veriv4Bp-1zvpjTwnWQzG1-TyB0vddRbb8AYHw/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbwKyRtgN_AO0e_egh7TfNcmEn9pmf8_5S8zPcRY39psMwVvqDDTJJoQt2SzYl_UlcJQcQ/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -494,6 +505,42 @@
     </form>
 
     <div class="success-state" id="success-state"></div>
+  </div>
+</div>
+
+
+<div style="border-top:1px solid var(--border);" id="who-tipped">
+  <div style="max-width:960px;margin:0 auto;padding:4rem 1.5rem;">
+    <div class="section-heading">Who tipped <span>what</span></div>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:1.5rem;">Tips become visible as results are entered — games without a result yet show as pending.</p>
+
+    <div class="md-tabs" style="margin-bottom:1.5rem;">
+      <button class="md-tab active" onclick="showWTW(1)" id="wtw-tab-1">Matchday 1</button>
+      <button class="md-tab" onclick="showWTW(2)" id="wtw-tab-2">Matchday 2</button>
+      <button class="md-tab" onclick="showWTW(3)" id="wtw-tab-3">Matchday 3</button>
+    </div>
+
+    <div id="wtw-panel-1" class="wtw-panel">
+      <div id="wtw-content-1" style="text-align:center;padding:2rem;color:var(--muted);font-size:14px;">Loading...</div>
+    </div>
+    <div id="wtw-panel-2" class="wtw-panel" style="display:none">
+      <div id="wtw-content-2" style="text-align:center;padding:2rem;color:var(--muted);font-size:14px;">Loading...</div>
+    </div>
+    <div id="wtw-panel-3" class="wtw-panel" style="display:none">
+      <div id="wtw-content-3" style="text-align:center;padding:2rem;color:var(--muted);font-size:14px;">Loading...</div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:1rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);">
+        <div style="width:12px;height:12px;border-radius:2px;background:#c6efce;"></div> Correct result
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);">
+        <div style="width:12px;height:12px;border-radius:2px;background:#ffc7ce;"></div> Wrong result
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);">
+        <div style="width:12px;height:12px;border-radius:2px;background:var(--bg3);border:1px solid var(--border)"></div> Not yet revealed
+      </div>
+    </div>
   </div>
 </div>
 
@@ -921,6 +968,75 @@
   document.getElementById('modal-submit-anyway').addEventListener('click', function() { closeModal('confirm-modal'); doSubmit(); });
   document.getElementById('confirm-modal').addEventListener('click', function(e) { if (e.target===this) closeModal(this.id); });
 
+  // ── WHO TIPPED WHAT ───────────────────────────────────────
+  var WTW_DEADLINES = {
+    1: new Date('2026-06-11T18:30:00Z'),
+    2: new Date('2026-06-18T15:30:00Z'),
+    3: new Date('2026-06-24T18:30:00Z'),
+  };
+
+  var WTW_MATCHES = {
+    1: MD1,
+    2: MD2,
+    3: MD3,
+  };
+
+  var wtwLoaded = {};
+
+  window.showWTW = function(n) {
+    document.querySelectorAll('.wtw-panel').forEach(function(p,i) {
+      p.style.display = i===n-1 ? 'block' : 'none';
+    });
+    document.querySelectorAll('#wtw-tab-1,#wtw-tab-2,#wtw-tab-3').forEach(function(t,i) {
+      t.classList.toggle('active', i===n-1);
+    });
+    if (!wtwLoaded[n]) loadWTW(n);
+  };
+
+  function loadWTW(md) {
+    var el = document.getElementById('wtw-content-' + md);
+    wtwLoaded[md] = true;
+    el.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--muted);">Loading tips...</div>';
+
+    fetch('https://script.google.com/macros/s/AKfycbwKyRtgN_AO0e_egh7TfNcmEn9pmf8_5S8zPcRY39psMwVvqDDTJJoQt2SzYl_UlcJQcQ/exec?action=whoTipped&md='+md)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data || data.error || !data.tippers || data.tippers.length === 0) {
+          el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);">No tips found yet.</div>';
+          return;
+        }
+        var matches = WTW_MATCHES[md];
+        var results = data.results || {};
+        var html = '<div class="wtw-table-wrap"><table class="wtw-table"><thead><tr><th style="min-width:110px">Name</th>';
+        matches.forEach(function(m) {
+          var actual = results[m.id] || '';
+          html += '<th class="match-col">' + m.teams.replace(' vs ','<br>') + (actual ? '<br><span style="font-weight:400;font-size:10px;opacity:0.85">'+actual+'</span>' : '') + '</th>';
+        });
+        html += '</tr></thead><tbody>';
+        data.tippers.forEach(function(tipper) {
+          html += '<tr><td style="font-weight:600;white-space:nowrap">' + tipper.name + '</td>';
+          matches.forEach(function(m) {
+            var tip    = tipper.tips[m.id] || '';
+            var actual = results[m.id] || '';
+            var cls = 'tip-pending';
+            if (actual && tip) {
+              cls = normalize(tip) === normalize(actual) ? 'tip-correct' : 'tip-wrong';
+            }
+            html += '<td style="text-align:center"><span class="tip-pill ' + cls + '">' + (tip || '—') + '</span></td>';
+          });
+          html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        el.innerHTML = html;
+      })
+      .catch(function() {
+        el.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted);">Could not load tips. Try again later.</div>';
+      });
+  }
+
+  // Load MD1 on page load if deadline has passed
+  setTimeout(function() { loadWTW(1); }, 800);
+
   // Show restore banner if no saved tips
   setTimeout(function() {
     if (!localStorage.getItem(STORAGE_KEY)) {
@@ -934,7 +1050,7 @@
     var msg   = document.getElementById('restore-msg');
     if (!name || !phone) { msg.style.color = '#f87171'; msg.textContent = 'Please enter your name and phone.'; return; }
     msg.style.color = 'var(--muted)'; msg.textContent = 'Looking up your tips...';
-    var url = 'https://script.google.com/macros/s/AKfycbzVQm7F6fEiy_AjMRZ4UT6AaZ7gako_Veriv4Bp-1zvpjTwnWQzG1-TyB0vddRbb8AYHw/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
+    var url = 'https://script.google.com/macros/s/AKfycbwKyRtgN_AO0e_egh7TfNcmEn9pmf8_5S8zPcRY39psMwVvqDDTJJoQt2SzYl_UlcJQcQ/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -981,7 +1097,7 @@
 
   // ── LEADERBOARD FETCH ─────────────────────────────────────
   function loadLeaderboard() {
-    fetch('https://script.google.com/macros/s/AKfycbzVQm7F6fEiy_AjMRZ4UT6AaZ7gako_Veriv4Bp-1zvpjTwnWQzG1-TyB0vddRbb8AYHw/exec?action=leaderboard')
+    fetch('https://script.google.com/macros/s/AKfycbwKyRtgN_AO0e_egh7TfNcmEn9pmf8_5S8zPcRY39psMwVvqDDTJJoQt2SzYl_UlcJQcQ/exec?action=leaderboard')
       .then(r => r.json())
       .then(data => {
         if (!data || !data.rows || data.rows.length === 0) {
