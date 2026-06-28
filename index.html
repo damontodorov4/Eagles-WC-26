@@ -851,9 +851,6 @@
   buildMatchForms(MD3, 'form-matches-3');
   buildKOMatchForms(MD4, 'form-matches-4');
 
-  // Default to current active matchday tab on load
-  showFormMD(activeMD);
-
   setInterval(() => {
     ALL_MATCHES.forEach(m => {
       if (isMatchLocked(m.id)) {
@@ -866,10 +863,11 @@
           if (sca) { sca.disabled = true; sca.style.cursor = 'not-allowed'; }
           if (scb) { scb.disabled = true; scb.style.cursor = 'not-allowed'; }
           document.querySelectorAll('#bubbles-'+m.id+' .bubble').forEach(b => { b.classList.add('locked-bubble'); b.setAttribute('onclick',''); });
+          document.querySelectorAll('#types-'+m.id+' .bubble').forEach(b => { b.classList.add('locked-bubble'); b.setAttribute('onclick',''); });
         }
       }
     });
-  }, 30000);
+  }, 10000);
 
   const DEADLINES = {
     1: new Date('2026-06-11T18:30:00Z'),
@@ -891,12 +889,15 @@
   }
 
   // Don't lock the whole form — per-match locking handles individual games
-  let activeMD = 1;
+  var activeMD = 1;
   const now = new Date();
   for (let md = 1; md <= 4; md++) {
     if (now >= DEADLINES[md]) activeMD = md + 1;
   }
   if (activeMD > 4) activeMD = 4;
+
+  // Switch to the correct matchday tab now that activeMD is set
+  showFormMD(activeMD);
 
   const STORAGE_KEY = 'wc2026_tips';
 
@@ -964,7 +965,7 @@
     document.getElementById('cd-secs').textContent  = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
   }
   updateCountdown();
-  setInterval(updateCountdown, 1000);1000);
+  setInterval(updateCountdown, 1000);
 
   function getIncompleteMDs() {
     const incomplete = [];
@@ -1175,6 +1176,7 @@
             }
           });
           restoreBubbles();
+          showFormMD(activeMD);
         }, 200);
         // Save to localStorage
         var saved = {savedAt: new Date().toISOString()};
