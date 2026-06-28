@@ -247,7 +247,7 @@
         <div class="form-md-tabs">
           <button type="button" class="form-md-tab" onclick="showFormMD(1)">Matchday 1</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(2)">Matchday 2</button>
-          <button type="button" class="form-md-tab active" onclick="showFormMD(3)">Matchday 3</button>
+          <button type="button" class="form-md-tab" onclick="showFormMD(3)">Matchday 3</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(4)">Round of 32</button>
         </div>
 
@@ -259,7 +259,7 @@
           <div class="matches-label">⚽ Matchday 2 — 18–23 June</div>
           <div id="form-matches-2"></div>
         </div>
-        <div class="form-md-panel active" id="form-md-3">
+        <div class="form-md-panel" id="form-md-3">
           <div class="matches-label">⚽ Matchday 3 — 25–28 June</div>
           <div id="form-matches-3"></div>
         </div>
@@ -823,17 +823,26 @@
 
   function restoreBubbles() {
     ALL_MATCHES.forEach(m => {
+      // Restore team/result bubble
       const hidden = document.getElementById('sel-'+m.id);
-      if (!hidden || !hidden.value) return;
-      const normVal = normText(hidden.value);
-      document.querySelectorAll('#bubbles-'+m.id+' .bubble').forEach(b => {
-        const oc = b.getAttribute('onclick') || '';
-        // Extract the value from onclick e.g. selectBubble('a1','Mexico win',this)
-        const match = oc.match(/selectBubble\('[^']+','([^']+)'/);
-        if (match && normText(match[1]) === normVal) {
-          b.classList.add('selected');
-        }
-      });
+      if (hidden && hidden.value) {
+        const normVal = normText(hidden.value);
+        document.querySelectorAll('#bubbles-'+m.id+' .bubble').forEach(b => {
+          const oc = b.getAttribute('onclick') || '';
+          const match = oc.match(/selectBubble\('[^']+','([^']+)'/);
+          if (match && normText(match[1]) === normVal) b.classList.add('selected');
+        });
+      }
+      // Restore type bubble (90 mins / AET / Pens) for R32
+      const typHidden = document.getElementById('typ-'+m.id);
+      if (typHidden && typHidden.value) {
+        const normVal = normText(typHidden.value);
+        document.querySelectorAll('#types-'+m.id+' .bubble').forEach(b => {
+          const oc = b.getAttribute('onclick') || '';
+          const match = oc.match(/selectType\('[^']+','([^']+)'/);
+          if (match && normText(match[1]) === normVal) b.classList.add('selected');
+        });
+      }
     });
   }
 
@@ -841,6 +850,9 @@
   buildMatchForms(MD2, 'form-matches-2');
   buildMatchForms(MD3, 'form-matches-3');
   buildKOMatchForms(MD4, 'form-matches-4');
+
+  // Default to current active matchday tab on load
+  showFormMD(activeMD);
 
   setInterval(() => {
     ALL_MATCHES.forEach(m => {
@@ -862,7 +874,8 @@
   const DEADLINES = {
     1: new Date('2026-06-11T18:30:00Z'),
     2: new Date('2026-06-18T15:30:00Z'),
-    3: new Date('2026-06-28T01:30:00Z'), // Last MD3 game (Jordan vs Argentina, Sun 28 Jun 12:00pm AEST)
+    3: new Date('2026-06-28T01:30:00Z'),  // Last MD3 game (Jordan vs Argentina)
+    4: new Date('2026-07-04T01:00:00Z'),  // Last R32 game (Colombia vs Ghana, Sat 4 Jul 11:00am AEST)
   };
 
 
@@ -878,12 +891,12 @@
   }
 
   // Don't lock the whole form — per-match locking handles individual games
-  let activeMD = 3;
+  let activeMD = 1;
   const now = new Date();
-  for (let md = 1; md <= 3; md++) {
+  for (let md = 1; md <= 4; md++) {
     if (now >= DEADLINES[md]) activeMD = md + 1;
   }
-  if (activeMD > 3) activeMD = 3;
+  if (activeMD > 4) activeMD = 4;
 
   const STORAGE_KEY = 'wc2026_tips';
 
@@ -922,6 +935,7 @@
       const data = restoreTips();
       if (data && data.savedAt) showSavedBanner(data.savedAt);
       restoreBubbles();
+    showFormMD(activeMD);
     }
   }, 100);
 
@@ -938,23 +952,24 @@
     const next = getNextKickoff();
     if (!next) {
       ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => document.getElementById(id).textContent='00');
-      document.getElementById('countdown-label').textContent = 'Group stage complete';
+      document.getElementById('countdown-label').textContent = 'Tournament complete';
       return;
     }
     const diff = next.ko - new Date();
-    if (diff <= 0) { updateCountdown(); return; }
-    document.getElementById('countdown-label').textContent = 'Next game: ' + next.match.teams + ' · ' + next.match.date;
+    if (diff <= 0) { setTimeout(updateCountdown, 1000); return; }
+    document.getElementById('countdown-label').textContent = 'Next: ' + next.match.teams + ' · ' + next.match.date;
     document.getElementById('cd-days').textContent  = String(Math.floor(diff/86400000)).padStart(2,'0');
     document.getElementById('cd-hours').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
     document.getElementById('cd-mins').textContent  = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
     document.getElementById('cd-secs').textContent  = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
   }
   updateCountdown();
-  setInterval(updateCountdown, 1000);
+  setInterval(updateCountdown, 1000);1000);
 
   function getIncompleteMDs() {
     const incomplete = [];
-    [[MD1,1],[MD2,2],[MD3,3]].forEach(([matches,mdNum]) => {
+    const activeMDs = activeMD >= 4 ? [[MD4,4]] : [[MD1,1],[MD2,2],[MD3,3]];
+    activeMDs.forEach(([matches,mdNum]) => {
       const hasAll = matches.every(m => { const r = document.getElementById('sel-'+m.id); return r && r.value; });
       const hasAny = matches.some(m => { const r = document.getElementById('sel-'+m.id); return r && r.value; });
       if (!hasAll) incomplete.push({mdNum, hasAny});
