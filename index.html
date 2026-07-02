@@ -1069,14 +1069,43 @@
     const phone = document.getElementById('phone').value.trim();
     if (!name || !phone) { showError(['Please enter your name and phone number']); return; }
     if (!confirm('Submit your tips to the organiser?\n\nName: ' + name + '\nYou can re-submit anytime before each match locks.')) return;
+
+    // Collect all form data via FormData
+    const form = document.getElementById('tips-form');
     document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
-    document.getElementById('tips-form').submit();
+    const formData = new FormData(form);
+
+    // Show sending state
     const ss = document.getElementById('success-state');
-    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x2705;</div>'
-      + '<h3 style="color:var(--accent)">Tips submitted!</h3>'
-      + '<p>Sent at <strong>' + new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + '</strong>.</p>'
-      + '<p style="margin-top:0.5rem;color:var(--muted);font-size:14px;">Come back and update anytime before each match locks.</p>'
-      + '<div style="margin-top:1.5rem;"><button type="button" onclick="editTips()" style="background:transparent;color:var(--text);font-weight:700;font-size:1rem;padding:12px 28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;">&#x270F;&#xFE0F; Edit my tips</button></div>';
+    ss.style.display = 'block';
+    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x23F3;</div><h3>Sending...</h3><p style="color:var(--muted);">Please wait a moment.</p>';
+    ss.scrollIntoView({behavior:'smooth',block:'start'});
+
+    fetch('https://script.google.com/macros/s/AKfycbwiLbDQ7UImLIBUXqmYinx1oZjCApics4Pb649DVLRIb3bwqdJkX3Y61KcfG_xI-msIKg/exec', {
+      method: 'POST',
+      body: formData
+    })
+    .then(function(response) { return response.text(); })
+    .then(function(text) {
+      if (text && text.indexOf('Error') > -1) {
+        ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x26A0;&#xFE0F;</div>'
+          + '<h3 style="color:#dc2626;">Something went wrong</h3>'
+          + '<p style="color:var(--muted);font-size:14px;">' + text + '</p>'
+          + '<div style="margin-top:1rem;"><button type="button" onclick="editTips()" style="background:var(--accent);color:#fff;font-weight:700;padding:10px 24px;border:none;border-radius:4px;cursor:pointer;">Try again</button></div>';
+      } else {
+        ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x2705;</div>'
+          + '<h3 style="color:var(--accent)">Tips submitted!</h3>'
+          + '<p>Sent at <strong>' + new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + '</strong>.</p>'
+          + '<p style="margin-top:0.5rem;color:var(--muted);font-size:14px;">Come back and update anytime before each match locks.</p>'
+          + '<div style="margin-top:1.5rem;"><button type="button" onclick="editTips()" style="background:transparent;color:var(--text);font-weight:700;font-size:1rem;padding:12px 28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;">&#x270F;&#xFE0F; Edit my tips</button></div>';
+      }
+    })
+    .catch(function(err) {
+      ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x26A0;&#xFE0F;</div>'
+        + '<h3 style="color:#dc2626;">Could not reach the server</h3>'
+        + '<p style="color:var(--muted);font-size:14px;">Check your internet connection and try again.<br>Error: ' + err.message + '</p>'
+        + '<div style="margin-top:1rem;"><button type="button" onclick="editTips()" style="background:var(--accent);color:#fff;font-weight:700;padding:10px 24px;border:none;border-radius:4px;cursor:pointer;">Try again</button></div>';
+    });
   };
 
   window.editAndResubmit = function() {
