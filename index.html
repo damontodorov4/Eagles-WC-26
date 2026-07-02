@@ -230,7 +230,7 @@
       <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
 
-    <form id="tips-form" novalidate target="hidden-submit-frame" action="https://script.google.com/macros/s/AKfycbzbYXYcteKuXde0tMTMjvurRROc7ttsLeHXPwlsimU9NwNYekcK-9ih14b3pabEdoTBcw/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbzbYXYcteKuXde0tMTMjvurRROc7ttsLeHXPwlsimU9NwNYekcK-9ih14b3pabEdoTBcw/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -310,7 +310,7 @@
         <button type="submit" class="submit-btn">💾 Save my tips</button>
 
         <div id="final-submit-section" style="display:none;margin-top:1rem;">
-          <button type="button" onclick="handleFinalSubmit()" class="submit-btn">✅ Submit Tips to Organiser</button>
+          <button type="submit" id="final-submit-btn" class="submit-btn" style="background:#1a7a1a;">&#x2705; Submit Tips</button>
         </div>
 
       </div>
@@ -1057,16 +1057,7 @@
   }
 
   
-  window.handleFinalSubmit = function() {
-    const name  = document.getElementById('name').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    if (!name || !phone) { showError(['Please enter your name and phone number']); return; }
-    document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
-    document.getElementById('tips-form').submit();
-    document.getElementById('final-submit-section').innerHTML =
-      '<p style="margin:0.5rem 0;font-size:15px;color:#1a7a1a;font-weight:700;">&#x2705; Tips submitted!</p>'
-      + '<p style="margin:0;font-size:13px;color:var(--muted);">Sent at ' + new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + '</p>';
-  };
+  
 
   window.editAndResubmit = function() {
     document.getElementById('success-state').style.display = 'none';
@@ -1272,6 +1263,24 @@
 
 
   document.getElementById('tips-form').addEventListener('submit', function(e) {
+    // If the real Submit Tips button triggered this, validate then let it POST
+    if (e.submitter && e.submitter.id === 'final-submit-btn') {
+      const name  = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      if (!name || !phone) {
+        e.preventDefault();
+        const errors = [];
+        if (!name)  { errors.push('Full name is required');    markFieldError('name'); }
+        if (!phone) { errors.push('Phone number is required'); markFieldError('phone'); }
+        showError(errors); return;
+      }
+      // Set timestamp and let form submit naturally to hidden iframe
+      document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
+      document.getElementById('final-submit-section').innerHTML =
+        '<p style="margin:0.5rem 0;font-size:15px;color:#1a7a1a;font-weight:700;">&#x2705; Tips submitted!</p>'
+        + '<p style="margin:0;font-size:13px;color:var(--muted);">Sent at ' + new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + '</p>';
+      return; // Allow POST to proceed
+    }
     e.preventDefault();
     const now = new Date();
     const currentMD = activeMD || 1;
