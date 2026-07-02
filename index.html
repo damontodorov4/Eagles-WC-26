@@ -249,6 +249,7 @@
           <button type="button" class="form-md-tab" onclick="showFormMD(2)">Matchday 2</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(3)">Matchday 3</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(4)">Round of 32</button>
+          <button class="md-tab" onclick="showFormMD(5)" id="tab-r16">Round of 16</button>
         </div>
 
         <div class="form-md-panel" id="form-md-1">
@@ -270,16 +271,45 @@
           <div id="form-matches-4"></div>
         </div>
 
-        <button type="submit" class="submit-btn">Save my tips ✓</button>
+        <div class="form-md-panel" id="form-md-5">
+          <div class="matches-label">⚔️ Round of 16 — 5–8 July</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Knockout stage — pick the winner, how they win (90 mins / AET / Pens), and the score after 90 mins. 1pt correct winner · +1pt correct how · +1pt correct score.</div>
+          <div id="form-matches-5"></div>
 
-        <div id="final-submit-section" style="display:none;margin-top:1rem;">
-          <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:5px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:var(--text);line-height:1.6;">
-            🏁 <strong>Happy with your tips?</strong> Hit Final Submit to lock them in and send them to the organiser. You can still edit and re-submit right up until each match deadline.
+          <div style="margin-top:2rem;padding-top:1.5rem;border-top:2px solid var(--border);">
+            <div class="matches-label" style="font-size:1rem;margin-bottom:0.4rem;">&#127942; Tiebreaker &#8212; Only used if needed</div>
+            <div style="font-size:12px;color:var(--muted);margin-bottom:1.5rem;">Only used to separate tied players at the end of the tournament. Locks when the first R16 game kicks off.</div>
+            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
+              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q1 &#8212; Who wins the World Cup?</div>
+              <input type="text" name="tb_winner" id="tb_winner" placeholder="e.g. Brazil" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
+            </div>
+            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
+              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q2 &#8212; Who is the runner up?</div>
+              <input type="text" name="tb_runner_up" id="tb_runner_up" placeholder="e.g. France" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
+            </div>
+            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
+              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q3 &#8212; Who finishes third?</div>
+              <input type="text" name="tb_third" id="tb_third" placeholder="e.g. Argentina" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
+            </div>
+            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
+              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q4 &#8212; Who is the top scorer?</div>
+              <input type="text" name="tb_top_scorer" id="tb_top_scorer" placeholder="e.g. Kylian Mbapp&#233;" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
+            </div>
+            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
+              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q5 &#8212; How many goals in the Final? (total)</div>
+              <input type="number" name="tb_final_goals" id="tb_final_goals" placeholder="e.g. 3" min="0" max="20" style="width:140px;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);">
+            </div>
+            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
+              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q6 &#8212; Total goals scored from R16 to the Final (all 15 games)</div>
+              <input type="number" name="tb_total_goals" id="tb_total_goals" placeholder="e.g. 38" min="0" max="150" style="width:140px;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);">
+            </div>
           </div>
-          <button type="button" id="final-submit-btn" onclick="handleFinalSubmit()" class="submit-btn" style="background:#CC1122;">
-            🏁 Final Submit — Send my tips
-          </button>
-        </div>
+
+        
+
+        <button type="submit" class="submit-btn">Save &amp; Submit tips ✓</button>
+
+        
       </div>
     </form>
 
@@ -717,10 +747,38 @@
     {day:'Sat 4 Jul', id:'r15',teams:'🇦🇷 Argentina vs 🇨🇻 Cape Verde',             date:'4 Jul · 8:00am AEST',  ko:'2026-07-03T22:00:00Z'},
     {day:'Sat 4 Jul', id:'r16',teams:'🇨🇴 Colombia vs 🇬🇭 Ghana',                   date:'4 Jul · 11:30am AEST', ko:'2026-07-04T01:30:00Z'},
   ];
+  const MD5_R16 = [
+    {day:'Sat 5 Jul', id:'s1',teams:'🇨🇦 Canada vs 🇲🇦 Morocco',              date:'5 Jul · 3:00am AEST · Houston', ko:'2026-07-04T17:00:00Z'},
+    {day:'Sat 5 Jul', id:'s2',teams:'🇵🇾 Paraguay vs 🇫🇷 France',              date:'5 Jul · 7:00am AEST · Philadelphia', ko:'2026-07-04T21:00:00Z'},
+    {day:'Sun 6 Jul', id:'s3',teams:'🇧🇷 Brazil vs 🇳🇴 Norway',                date:'6 Jul · 6:00am AEST · New York/NJ', ko:'2026-07-05T20:00:00Z'},
+    {day:'Sun 6 Jul', id:'s4',teams:'🇲🇽 Mexico vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England',        date:'6 Jul · 10:00am AEST · Mexico City',ko:'2026-07-06T00:00:00Z'},
+    {day:'Mon 7 Jul', id:'s5',teams:'TBD (Port/Cro) vs TBD (Spain/Aut)',       date:'7 Jul · 5:00am AEST · Dallas', ko:'2026-07-06T19:00:00Z'},
+    {day:'Mon 7 Jul', id:'s6',teams:'🇺🇸 USA vs 🇧🇪 Belgium',          date:'7 Jul · 10:00am AEST · Seattle',ko:'2026-07-07T00:00:00Z'},
+    {day:'Tue 8 Jul', id:'s7',teams:'TBD (Arg/CV) vs TBD (Aus/Egy)',           date:'8 Jul · 2:00am AEST · Atlanta', ko:'2026-07-07T16:00:00Z'},
+    {day:'Tue 8 Jul', id:'s8',teams:'TBD (Swi/Alg) vs TBD (Col/Gha)',         date:'8 Jul · 6:00am AEST · Vancouver', ko:'2026-07-07T20:00:00Z'},
+  ];
 
-  const ALL_MATCHES = [...MD1, ...MD2, ...MD3, ...MD4];
+  const ALL_MATCHES = [...MD1, ...MD2, ...MD3, ...MD4, ...MD5_R16];
   const MATCH_DEADLINES = {};
   ALL_MATCHES.forEach(m => { MATCH_DEADLINES[m.id] = new Date(new Date(m.ko).getTime() - 30*60*1000); });
+  // Lock tiebreaker inputs at first R16 kickoff - 30 mins
+  const TB_LOCK = new Date('2026-07-04T16:30:00Z');
+  function checkTiebreakerLock() {
+    if (new Date() >= TB_LOCK) {
+      document.querySelectorAll('#form-md-6 input').forEach(el => {
+        el.disabled = true;
+        el.style.cursor = 'not-allowed';
+        el.style.opacity = '0.5';
+      });
+      var lbl = document.querySelector('#form-md-6 .matches-label');
+      if (lbl && !lbl.dataset.locked) {
+        lbl.dataset.locked = '1';
+        lbl.innerHTML += ' <span style="font-size:0.75rem;color:var(--accent);font-weight:400;">🔒 Locked</span>';
+      }
+    }
+  }
+  checkTiebreakerLock();
+
 
   function isMatchLocked(id) { return MATCH_DEADLINES[id] && new Date() >= MATCH_DEADLINES[id]; }
 
@@ -850,6 +908,7 @@
   buildMatchForms(MD2, 'form-matches-2');
   buildMatchForms(MD3, 'form-matches-3');
   buildKOMatchForms(MD4, 'form-matches-4');
+  buildKOMatchForms(MD5_R16, 'form-matches-5');
 
   setInterval(() => {
     ALL_MATCHES.forEach(m => {
@@ -873,7 +932,8 @@
     1: new Date('2026-06-11T18:30:00Z'),
     2: new Date('2026-06-18T15:30:00Z'),
     3: new Date('2026-06-28T01:30:00Z'),  // Last MD3 game (Jordan vs Argentina)
-    4: new Date('2026-07-04T01:00:00Z'),  // Last R32 game (Colombia vs Ghana, Sat 4 Jul 11:00am AEST)
+    4: new Date('2026-07-04T01:00:00Z'),  // Last R32 game
+    5: new Date('2026-07-07T19:30:00Z'),  // Last R16 game -30min
   };
 
 
@@ -891,13 +951,14 @@
   // Don't lock the whole form — per-match locking handles individual games
   var activeMD = 1;
   const now = new Date();
-  for (let md = 1; md <= 4; md++) {
+  for (let md = 1; md <= 5; md++) {
     if (now >= DEADLINES[md]) activeMD = md + 1;
   }
-  if (activeMD > 4) activeMD = 4;
+  if (activeMD > 5) activeMD = 5;
+  if (activeMD < 5) activeMD = 5; // R16 is now live — always open here by default
 
-  // Switch to the correct matchday tab now that activeMD is set
-  showFormMD(activeMD);
+  // Switch to the correct matchday tab after browser has painted
+  setTimeout(function() { showFormMD(activeMD); }, 0);
 
   const STORAGE_KEY = 'wc2026_tips';
 
@@ -980,49 +1041,38 @@
 
   function doSubmit() {
     const now = new Date();
-    saveTips();
-    showSavedBanner(now.toISOString());
-    const currentMD = activeMD || 1;
-    if (now >= DEADLINES[currentMD]) { lockForm(currentMD); return; }
-    const ss = document.getElementById('success-state');
-    ss.style.display = 'block';
-    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">💾</div>'
-      +'<h3>Tips saved!</h3>'
-      +'<p>Saved at <strong>'+now.toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'})+'</strong>.</p>'
-      +'<p style="margin-top:0.5rem;color:var(--muted);font-size:14px;">Your tips are stored on this device. Edit any time before the deadline.<br>When you\'re happy, hit <strong style="color:var(--text)">Final Submit</strong> to send them to the organiser.</p>'
-      +'<div style="margin-top:1.5rem;"><button type="button" onclick="editTips()" style="background:transparent;color:var(--text);font-family:\'Barlow Condensed\',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.05em;text-transform:uppercase;padding:12px 28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;">✏️ Edit my tips</button></div>';
-    ss.scrollIntoView({behavior:'smooth',block:'start'});
-    document.getElementById('final-submit-section').style.display = 'block';
-  }
-
-  window.handleFinalSubmit = function() {
-    const name = document.getElementById('name').value.trim();
+    const name  = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     if (!name || !phone) {
       const errors = [];
-      if (!name) { errors.push('Full name is required'); markFieldError('name'); }
+      if (!name)  { errors.push('Full name is required');    markFieldError('name'); }
       if (!phone) { errors.push('Phone number is required'); markFieldError('phone'); }
       showError(errors); return;
     }
-    document.getElementById('final-confirm-body').textContent = 'Sending tips for '+name+'. You can still edit and re-submit before each match deadline.';
-    openModal('final-confirm-modal');
-    document.getElementById('final-confirm-yes').onclick = function() {
-      closeModal('final-confirm-modal');
-      document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
-      document.getElementById('tips-form').submit();
-      // Show thank you popup instead of redirecting
-      setTimeout(function() { openModal('thankyou-modal'); }, 800);
-    };
-    document.getElementById('final-confirm-no').onclick = function() { closeModal('final-confirm-modal'); };
-  };
-
+    const currentMD = activeMD || 1;
+    if (now >= DEADLINES[currentMD]) { lockForm(currentMD); return; }
+    saveTips();
+    showSavedBanner(now.toISOString());
+    document.getElementById('form-timestamp').value = now.toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
+    document.getElementById('tips-form').submit();
+    setTimeout(function() {
+      const ss = document.getElementById('success-state');
+      ss.style.display = 'block';
+      ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x2705;</div>'
+        + '<h3 style="color:var(--accent)">Tips submitted!</h3>'
+        + '<p>Sent at <strong>' + now.toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + '</strong>.</p>'
+        + '<p style="margin-top:0.5rem;color:var(--muted);font-size:14px;">Come back and update anytime before each match locks.</p>'
+        + '<div style="margin-top:1.5rem;"><button type="button" onclick="editTips()" style="background:transparent;color:var(--text);font-weight:700;font-size:1rem;padding:12px 28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;">&#x270F;&#xFE0F; Edit my tips</button></div>';
+      ss.scrollIntoView({behavior:'smooth',block:'start'});
+    }, 800);
+  }
 
 
   window.editAndResubmit = function() {
     document.getElementById('success-state').style.display = 'none';
     document.getElementById('tips-form').style.display = 'block';
     document.getElementById('tips-body').style.display = 'block';
-    document.getElementById('final-submit-section').style.display = 'block';
+    
     document.getElementById('tips-body').scrollIntoView({behavior:'smooth',block:'start'});
   };
 
@@ -1184,7 +1234,7 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
         showSavedBanner(saved.savedAt);
         document.getElementById('restore-banner').style.display = 'none';
-        document.getElementById('final-submit-section').style.display = 'block';
+        
         msg.style.color = '#22c55e';
         msg.textContent = '✅ Tips restored successfully!';
       })
