@@ -309,7 +309,11 @@
 
         <button type="submit" class="submit-btn">Save my tips ✓</button>
 
-        
+        <div id="final-submit-section" style="display:none;margin-top:1.5rem;background:rgba(204,17,34,0.06);border:1px solid rgba(204,17,34,0.2);border-radius:8px;padding:1.5rem;text-align:center;">
+          <p style="margin:0 0 1rem;font-size:14px;color:var(--muted);">Tips saved on this device. When you are ready, send them to the organiser.</p>
+          <button type="button" onclick="handleFinalSubmit()" class="submit-btn" style="margin:0 auto;max-width:320px;">&#x2705; Submit Tips to Organiser</button>
+        </div>
+
       </div>
     </form>
 
@@ -1047,64 +1051,43 @@
     }
     const currentMD = activeMD || 1;
     if (now >= DEADLINES[currentMD]) { lockForm(currentMD); return; }
-    // Save to localStorage
     saveTips();
     showSavedBanner(now.toISOString());
-    // Show success with Final Submit button
-    const ss = document.getElementById('success-state');
-    ss.style.display = 'block';
-    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x1F4BE;</div>'
-      + '<h3>Tips saved!</h3>'
-      + '<p>Saved at <strong>' + now.toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + '</strong>.</p>'
-      + '<p style="margin-top:0.5rem;color:var(--muted);font-size:14px;">Your tips are saved on this device. Hit <strong>Submit Tips</strong> below to send to the organiser.</p>'
-      + '<div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">'
-      + '<button type="button" onclick="editTips()" style="background:transparent;color:var(--text);font-weight:700;font-size:1rem;padding:12px 28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;">&#x270F;&#xFE0F; Edit my tips</button>'
-      + '<button type="button" onclick="handleFinalSubmit()" style="background:var(--accent);color:#fff;font-weight:700;font-size:1.1rem;text-transform:uppercase;padding:12px 32px;border:none;border-radius:4px;cursor:pointer;">&#x2705; Submit Tips</button>'
-      + '</div>';
-    ss.scrollIntoView({behavior:'smooth',block:'start'});
+    document.getElementById('final-submit-section').style.display = 'block';
+    document.getElementById('final-submit-section').scrollIntoView({behavior:'smooth', block:'nearest'});
   }
 
+  
   window.handleFinalSubmit = function() {
     const name  = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     if (!name || !phone) { showError(['Please enter your name and phone number']); return; }
     if (!confirm('Submit your tips to the organiser?\n\nName: ' + name + '\nYou can re-submit anytime before each match locks.')) return;
 
-    // Collect all form data via FormData
-    const form = document.getElementById('tips-form');
     document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
-    const formData = new FormData(form);
+    const formData = new FormData(document.getElementById('tips-form'));
 
-    // Show sending state
-    const ss = document.getElementById('success-state');
-    ss.style.display = 'block';
-    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x23F3;</div><h3>Sending...</h3><p style="color:var(--muted);">Please wait a moment.</p>';
-    ss.scrollIntoView({behavior:'smooth',block:'start'});
+    const btn = document.querySelector('#final-submit-section .submit-btn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
 
-    fetch('https://script.google.com/macros/s/AKfycbwiLbDQ7UImLIBUXqmYinx1oZjCApics4Pb649DVLRIb3bwqdJkX3Y61KcfG_xI-msIKg/exec', {
-      method: 'POST',
-      body: formData
-    })
-    .then(function(response) { return response.text(); })
+    fetch('https://script.google.com/macros/s/AKfycbwiLbDQ7UImLIBUXqmYinx1oZjCApics4Pb649DVLRIb3bwqdJkX3Y61KcfG_xI-msIKg/exec', { method:'POST', body:formData })
+    .then(function(r) { return r.text(); })
     .then(function(text) {
       if (text && text.indexOf('Error') > -1) {
-        ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x26A0;&#xFE0F;</div>'
-          + '<h3 style="color:#dc2626;">Something went wrong</h3>'
-          + '<p style="color:var(--muted);font-size:14px;">' + text + '</p>'
-          + '<div style="margin-top:1rem;"><button type="button" onclick="editTips()" style="background:var(--accent);color:#fff;font-weight:700;padding:10px 24px;border:none;border-radius:4px;cursor:pointer;">Try again</button></div>';
+        btn.textContent = '✅ Submit Tips to Organiser';
+        btn.disabled = false;
+        alert('Error submitting tips: ' + text + '\n\nPlease try again or contact the organiser.');
       } else {
-        ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x2705;</div>'
-          + '<h3 style="color:var(--accent)">Tips submitted!</h3>'
-          + '<p>Sent at <strong>' + new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + '</strong>.</p>'
-          + '<p style="margin-top:0.5rem;color:var(--muted);font-size:14px;">Come back and update anytime before each match locks.</p>'
-          + '<div style="margin-top:1.5rem;"><button type="button" onclick="editTips()" style="background:transparent;color:var(--text);font-weight:700;font-size:1rem;padding:12px 28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;">&#x270F;&#xFE0F; Edit my tips</button></div>';
+        document.getElementById('final-submit-section').innerHTML =
+          '<p style="margin:0;font-size:15px;color:var(--accent);font-weight:700;">&#x2705; Tips submitted successfully!</p>'
+          + '<p style="margin:0.5rem 0 0;font-size:13px;color:var(--muted);">Sent at ' + new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + ' — you can re-submit anytime before each match locks.</p>';
       }
     })
     .catch(function(err) {
-      ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x26A0;&#xFE0F;</div>'
-        + '<h3 style="color:#dc2626;">Could not reach the server</h3>'
-        + '<p style="color:var(--muted);font-size:14px;">Check your internet connection and try again.<br>Error: ' + err.message + '</p>'
-        + '<div style="margin-top:1rem;"><button type="button" onclick="editTips()" style="background:var(--accent);color:#fff;font-weight:700;padding:10px 24px;border:none;border-radius:4px;cursor:pointer;">Try again</button></div>';
+      btn.textContent = '✅ Submit Tips to Organiser';
+      btn.disabled = false;
+      alert('Could not reach the server. Check your internet and try again.\n\n' + err.message);
     });
   };
 
