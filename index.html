@@ -249,7 +249,6 @@
           <button type="button" class="form-md-tab" onclick="showFormMD(2)">Matchday 2</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(3)">Matchday 3</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(4)">Round of 32</button>
-          <button type="button" class="form-md-tab" onclick="showFormMD(5)" id="tab-r16">Round of 16</button>
         </div>
 
         <div class="form-md-panel" id="form-md-1">
@@ -270,43 +269,6 @@
           <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Knockout stage — pick the winner, how they win (90 mins / AET / Pens), and the score. 1pt for correct winner · +1pt correct how · +1pt correct score.</div>
           <div id="form-matches-4"></div>
         </div>
-
-        <div class="form-md-panel" id="form-md-5">
-          <div class="matches-label">⚔️ Round of 16 — 5–8 July</div>
-          <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Knockout stage — pick the winner, how they win (90 mins / AET / Pens), and the score after 90 mins. 1pt correct winner · +1pt correct how · +1pt correct score.</div>
-          <div id="form-matches-5"></div>
-
-          <div style="margin-top:2rem;padding-top:1.5rem;border-top:2px solid var(--border);">
-            <div class="matches-label" style="font-size:1rem;margin-bottom:0.4rem;">&#127942; Tiebreaker &#8212; Only used if needed</div>
-            <div style="font-size:12px;color:var(--muted);margin-bottom:1.5rem;">Only used to separate tied players at the end of the tournament. Locks when the first R16 game kicks off.</div>
-            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
-              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q1 &#8212; Who wins the World Cup?</div>
-              <input type="text" name="tb_winner" id="tb_winner" placeholder="e.g. Brazil" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
-            </div>
-            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
-              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q2 &#8212; Who is the runner up?</div>
-              <input type="text" name="tb_runner_up" id="tb_runner_up" placeholder="e.g. France" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
-            </div>
-            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
-              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q3 &#8212; Who finishes third?</div>
-              <input type="text" name="tb_third" id="tb_third" placeholder="e.g. Argentina" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
-            </div>
-            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
-              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q4 &#8212; Who is the top scorer?</div>
-              <input type="text" name="tb_top_scorer" id="tb_top_scorer" placeholder="e.g. Kylian Mbapp&#233;" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);box-sizing:border-box;">
-            </div>
-            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
-              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q5 &#8212; How many goals in the Final? (total)</div>
-              <input type="number" name="tb_final_goals" id="tb_final_goals" placeholder="e.g. 3" min="0" max="20" style="width:140px;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);">
-            </div>
-            <div class="match-block" style="padding:1.2rem 1rem;margin-bottom:1rem;">
-              <div class="match-label" style="font-size:0.7rem;font-weight:700;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;margin-bottom:0.6rem;">Q6 &#8212; Total goals scored from R16 to the Final (all 15 games)</div>
-              <input type="number" name="tb_total_goals" id="tb_total_goals" placeholder="e.g. 38" min="0" max="150" style="width:140px;padding:0.6rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:1rem;background:var(--bg);color:var(--text);">
-            </div>
-          </div>
-
-        
-
         <button type="submit" class="submit-btn">&#x1F4BE; Save my tips &#x2713;</button>
 
         <div id="final-submit-section" style="display:none;margin-top:1rem;">
@@ -751,18 +713,8 @@
     {day:'Sat 4 Jul', id:'r15',teams:'🇦🇷 Argentina vs 🇨🇻 Cape Verde',             date:'4 Jul · 8:00am AEST',  ko:'2026-07-03T22:00:00Z'},
     {day:'Sat 4 Jul', id:'r16',teams:'🇨🇴 Colombia vs 🇬🇭 Ghana',                   date:'4 Jul · 11:30am AEST', ko:'2026-07-04T01:30:00Z'},
   ];
-  const MD5_R16 = [
-    {day:'Sat 5 Jul', id:'s1',teams:'🇨🇦 Canada vs 🇲🇦 Morocco',              date:'5 Jul · 3:00am AEST · Houston', ko:'2026-07-04T17:00:00Z'},
-    {day:'Sat 5 Jul', id:'s2',teams:'🇵🇾 Paraguay vs 🇫🇷 France',              date:'5 Jul · 7:00am AEST · Philadelphia', ko:'2026-07-04T21:00:00Z'},
-    {day:'Sun 6 Jul', id:'s3',teams:'🇧🇷 Brazil vs 🇳🇴 Norway',                date:'6 Jul · 6:00am AEST · New York/NJ', ko:'2026-07-05T20:00:00Z'},
-    {day:'Sun 6 Jul', id:'s4',teams:'🇲🇽 Mexico vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England',        date:'6 Jul · 10:00am AEST · Mexico City',ko:'2026-07-06T00:00:00Z'},
-    {day:'Mon 7 Jul', id:'s5',teams:'TBD (Port/Cro) vs TBD (Spain/Aut)',       date:'7 Jul · 5:00am AEST · Dallas', ko:'2026-07-06T19:00:00Z'},
-    {day:'Mon 7 Jul', id:'s6',teams:'🇺🇸 USA vs 🇧🇪 Belgium',          date:'7 Jul · 10:00am AEST · Seattle',ko:'2026-07-07T00:00:00Z'},
-    {day:'Tue 8 Jul', id:'s7',teams:'TBD (Arg/CV) vs TBD (Aus/Egy)',           date:'8 Jul · 2:00am AEST · Atlanta', ko:'2026-07-07T16:00:00Z'},
-    {day:'Tue 8 Jul', id:'s8',teams:'TBD (Swi/Alg) vs TBD (Col/Gha)',         date:'8 Jul · 6:00am AEST · Vancouver', ko:'2026-07-07T20:00:00Z'},
-  ];
 
-  const ALL_MATCHES = [...MD1, ...MD2, ...MD3, ...MD4, ...MD5_R16];
+  const ALL_MATCHES = [...MD1, ...MD2, ...MD3, ...MD4];
   const MATCH_DEADLINES = {};
   ALL_MATCHES.forEach(m => { MATCH_DEADLINES[m.id] = new Date(new Date(m.ko).getTime() - 30*60*1000); });
   // Lock tiebreaker inputs at first R16 kickoff - 30 mins
@@ -912,7 +864,6 @@
   buildMatchForms(MD2, 'form-matches-2');
   buildMatchForms(MD3, 'form-matches-3');
   buildKOMatchForms(MD4, 'form-matches-4');
-  buildKOMatchForms(MD5_R16, 'form-matches-5');
 
   setInterval(() => {
     ALL_MATCHES.forEach(m => {
@@ -937,7 +888,6 @@
     2: new Date('2026-06-18T15:30:00Z'),
     3: new Date('2026-06-28T01:30:00Z'),  // Last MD3 game (Jordan vs Argentina)
     4: new Date('2026-07-04T01:00:00Z'),  // Last R32 game
-    5: new Date('2026-07-07T19:30:00Z'),  // Last R16 game -30min
   };
 
 
@@ -955,11 +905,11 @@
   // Don't lock the whole form — per-match locking handles individual games
   var activeMD = 1;
   const now = new Date();
-  for (let md = 1; md <= 5; md++) {
+  for (let md = 1; md <= 4; md++) {
     if (now >= DEADLINES[md]) activeMD = md + 1;
   }
-  if (activeMD > 5) activeMD = 5;
-  if (activeMD < 5) activeMD = 5; // R16 is now live — always open here by default
+  if (activeMD > 4) activeMD = 4;
+   // R16 is now live — always open here by default
 
   // Switch to the correct matchday tab after browser has painted
   setTimeout(function() { showFormMD(activeMD); }, 0);
