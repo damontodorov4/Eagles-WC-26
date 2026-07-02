@@ -307,10 +307,15 @@
 
         
 
-        <button type="submit" class="submit-btn">💾 Save my tips</button>
+        <button type="submit" class="submit-btn">&#x1F4BE; Save my tips &#x2713;</button>
 
         <div id="final-submit-section" style="display:none;margin-top:1rem;">
-          <button type="submit" id="final-submit-btn" class="submit-btn" style="background:#1a7a1a;">&#x2705; Submit Tips</button>
+          <div style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:5px;padding:12px 16px;margin-bottom:12px;font-size:13px;color:var(--text);line-height:1.6;">
+            &#x1F3C1; <strong>Happy with your tips?</strong> Hit Final Submit to lock them in and send them to the organiser. You can still edit and re-submit right up until each match deadline.
+          </div>
+          <button type="button" id="final-submit-btn" onclick="handleFinalSubmit()" class="submit-btn" style="background:#CC1122;">
+            &#x1F3C1; Final Submit — Send my tips
+          </button>
         </div>
 
       </div>
@@ -1052,14 +1057,39 @@
     if (now >= DEADLINES[currentMD]) { lockForm(currentMD); return; }
     saveTips();
     showSavedBanner(now.toISOString());
+    // Show success screen
+    const ss = document.getElementById('success-state');
+    ss.style.display = 'block';
+    ss.innerHTML = '<div style="font-size:3rem;margin-bottom:1rem;">&#x1F4BE;</div>'
+      +'<h3>Tips saved!</h3>'
+      +'<p>Saved at <strong>'+now.toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'})+'</strong>.</p>'
+      +'<p style="margin-top:0.5rem;color:var(--muted);font-size:14px;">Your tips are stored on this device. Edit any time before the deadline.<br>When ready, hit <strong style="color:var(--text)">Final Submit</strong> to send them to the organiser.</p>'
+      +'<div style="margin-top:1.5rem;"><button type="button" onclick="editTips()" style="background:transparent;color:var(--text);font-weight:700;font-size:1rem;padding:12px 28px;border:1px solid var(--border);border-radius:4px;cursor:pointer;">&#x270F;&#xFE0F; Edit my tips</button></div>';
+    ss.scrollIntoView({behavior:'smooth',block:'start'});
     document.getElementById('final-submit-section').style.display = 'block';
-    document.getElementById('final-submit-section').scrollIntoView({behavior:'smooth', block:'nearest'});
   }
 
-  
-  
+  window.handleFinalSubmit = function() {
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    if (!name || !phone) {
+      const errors = [];
+      if (!name) { errors.push('Full name is required'); markFieldError('name'); }
+      if (!phone) { errors.push('Phone number is required'); markFieldError('phone'); }
+      showError(errors); return;
+    }
+    document.getElementById('final-confirm-body').textContent = 'Sending tips for '+name+'. You can still edit and re-submit before each match deadline.';
+    openModal('final-confirm-modal');
+    document.getElementById('final-confirm-yes').onclick = function() {
+      closeModal('final-confirm-modal');
+      document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
+      document.getElementById('tips-form').submit();
+      setTimeout(function() { openModal('thankyou-modal'); }, 800);
+    };
+    document.getElementById('final-confirm-no').onclick = function() { closeModal('final-confirm-modal'); };
+  };
 
-  window.editAndResubmit = function() {
+    window.editAndResubmit = function() {
     document.getElementById('success-state').style.display = 'none';
     document.getElementById('tips-form').style.display = 'block';
     document.getElementById('tips-body').style.display = 'block';
