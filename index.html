@@ -230,7 +230,7 @@
       <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
 
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbwiLbDQ7UImLIBUXqmYinx1oZjCApics4Pb649DVLRIb3bwqdJkX3Y61KcfG_xI-msIKg/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate target="hidden-submit-frame" action="https://script.google.com/macros/s/AKfycbwiLbDQ7UImLIBUXqmYinx1oZjCApics4Pb649DVLRIb3bwqdJkX3Y61KcfG_xI-msIKg/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -307,11 +307,10 @@
 
         
 
-        <button type="submit" class="submit-btn">Save my tips ✓</button>
+        <button type="submit" class="submit-btn">💾 Save my tips</button>
 
-        <div id="final-submit-section" style="display:none;margin-top:1.5rem;background:rgba(204,17,34,0.06);border:1px solid rgba(204,17,34,0.2);border-radius:8px;padding:1.5rem;text-align:center;">
-          <p style="margin:0 0 1rem;font-size:14px;color:var(--muted);">Tips saved on this device. When you are ready, send them to the organiser.</p>
-          <button type="button" onclick="handleFinalSubmit()" class="submit-btn" style="margin:0 auto;max-width:320px;">&#x2705; Submit Tips to Organiser</button>
+        <div id="final-submit-section" style="display:none;margin-top:1rem;">
+          <button type="button" onclick="handleFinalSubmit()" class="submit-btn">✅ Submit Tips to Organiser</button>
         </div>
 
       </div>
@@ -1062,33 +1061,11 @@
     const name  = document.getElementById('name').value.trim();
     const phone = document.getElementById('phone').value.trim();
     if (!name || !phone) { showError(['Please enter your name and phone number']); return; }
-    if (!confirm('Submit your tips to the organiser?\n\nName: ' + name + '\nYou can re-submit anytime before each match locks.')) return;
-
     document.getElementById('form-timestamp').value = new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'});
-    const formData = new FormData(document.getElementById('tips-form'));
-
-    const btn = document.querySelector('#final-submit-section .submit-btn');
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
-
-    fetch('https://script.google.com/macros/s/AKfycbwiLbDQ7UImLIBUXqmYinx1oZjCApics4Pb649DVLRIb3bwqdJkX3Y61KcfG_xI-msIKg/exec', { method:'POST', body:formData })
-    .then(function(r) { return r.text(); })
-    .then(function(text) {
-      if (text && text.indexOf('Error') > -1) {
-        btn.textContent = '✅ Submit Tips to Organiser';
-        btn.disabled = false;
-        alert('Error submitting tips: ' + text + '\n\nPlease try again or contact the organiser.');
-      } else {
-        document.getElementById('final-submit-section').innerHTML =
-          '<p style="margin:0;font-size:15px;color:var(--accent);font-weight:700;">&#x2705; Tips submitted successfully!</p>'
-          + '<p style="margin:0.5rem 0 0;font-size:13px;color:var(--muted);">Sent at ' + new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + ' — you can re-submit anytime before each match locks.</p>';
-      }
-    })
-    .catch(function(err) {
-      btn.textContent = '✅ Submit Tips to Organiser';
-      btn.disabled = false;
-      alert('Could not reach the server. Check your internet and try again.\n\n' + err.message);
-    });
+    document.getElementById('tips-form').submit();
+    document.getElementById('final-submit-section').innerHTML =
+      '<p style="margin:0.5rem 0;font-size:15px;color:#1a7a1a;font-weight:700;">&#x2705; Tips submitted!</p>'
+      + '<p style="margin:0;font-size:13px;color:var(--muted);">Sent at ' + new Date().toLocaleString('en-AU',{dateStyle:'medium',timeStyle:'short'}) + '</p>';
   };
 
   window.editAndResubmit = function() {
