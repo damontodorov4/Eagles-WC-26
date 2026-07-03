@@ -250,6 +250,7 @@
           <button type="button" class="form-md-tab" onclick="showFormMD(3)">Matchday 3</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(4)">Round of 32</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(5)">Round of 16</button>
+          <button type="button" class="form-md-tab" onclick="showFormMD(6)">🏆 Tiebreaker</button>
         </div>
 
         <div class="form-md-panel" id="form-md-1">
@@ -281,6 +282,35 @@
             🇦🇷/🇨🇻 Argentina or Cape Verde <span style="opacity:0.6">vs</span> 🇦🇺/🇪🇬 Australia or Egypt — Wed 8 Jul · 2:00am AEST<br>
             🇨🇭/🇩🇿 Switzerland or Algeria <span style="opacity:0.6">vs</span> 🇨🇴/🇬🇭 Colombia or Ghana — Wed 8 Jul · 6:00am AEST<br>
             Check back once these are locked in — we'll open tipping for them here.
+          </div>
+        </div>
+
+        <div class="form-md-panel" id="form-md-6">
+          <div class="matches-label">🏆 Tiebreaker — for splitting ties on the leaderboard</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Locks 30 minutes before the first Round of 16 kickoff. One entry per person — you can update it any time before then.</div>
+          <div class="form-group">
+            <label for="tb_winner">🏆 Who wins the World Cup?</label>
+            <input type="text" id="tb_winner" name="tb_winner" placeholder="e.g. Brazil">
+          </div>
+          <div class="form-group">
+            <label for="tb_runner_up">🥈 Who is the runner up?</label>
+            <input type="text" id="tb_runner_up" name="tb_runner_up" placeholder="e.g. France">
+          </div>
+          <div class="form-group">
+            <label for="tb_third">🥉 Who finishes third?</label>
+            <input type="text" id="tb_third" name="tb_third" placeholder="e.g. Argentina">
+          </div>
+          <div class="form-group">
+            <label for="tb_top_scorer">⚽ Who will finish as top scorer?</label>
+            <input type="text" id="tb_top_scorer" name="tb_top_scorer" placeholder="e.g. Kylian Mbappé">
+          </div>
+          <div class="form-group">
+            <label for="tb_final_goals">🔢 Total goals in the Final</label>
+            <input type="number" min="0" id="tb_final_goals" name="tb_final_goals" placeholder="e.g. 3">
+          </div>
+          <div class="form-group">
+            <label for="tb_total_goals">🔢 Total goals across R16 to the Final</label>
+            <input type="number" min="0" id="tb_total_goals" name="tb_total_goals" placeholder="e.g. 45">
           </div>
         </div>
         <button type="submit" class="submit-btn">&#x1F4BE; Save my tips &#x2713;</button>
