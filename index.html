@@ -249,6 +249,7 @@
           <button type="button" class="form-md-tab" onclick="showFormMD(2)">Matchday 2</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(3)">Matchday 3</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(4)">Round of 32</button>
+          <button type="button" class="form-md-tab" onclick="showFormMD(5)">Round of 16</button>
         </div>
 
         <div class="form-md-panel" id="form-md-1">
@@ -268,6 +269,20 @@
           <div class="matches-label">🏆 Round of 32 — 29 June – 5 July</div>
           <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Knockout stage — pick the winner, how they win (90 mins / AET / Pens), and the score. 1pt for correct winner · +1pt correct how · +1pt correct score.</div>
           <div id="form-matches-4"></div>
+        </div>
+
+        <div class="form-md-panel" id="form-md-5">
+          <div class="matches-label">🏆 Round of 16 — 5–8 July</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Knockout stage — pick the winner, how they win (90 mins / AET / Pens), and the score. 1pt for correct winner · +1pt correct how · +1pt correct score.</div>
+          <div id="form-matches-5"></div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);padding:10px 0 6px;border-bottom:1px solid var(--border);margin:16px 0 10px;">📅 Still to be confirmed</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.7;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:12px 16px;">
+            3 more Round of 16 matches are waiting on the last Round of 32 results:<br>
+            🇵🇹/🇭🇷 Portugal or Croatia <span style="opacity:0.6">vs</span> 🇪🇸/🇦🇹 Spain or Austria — Tue 7 Jul · 5:00am AEST<br>
+            🇦🇷/🇨🇻 Argentina or Cape Verde <span style="opacity:0.6">vs</span> 🇦🇺/🇪🇬 Australia or Egypt — Wed 8 Jul · 2:00am AEST<br>
+            🇨🇭/🇩🇿 Switzerland or Algeria <span style="opacity:0.6">vs</span> 🇨🇴/🇬🇭 Colombia or Ghana — Wed 8 Jul · 6:00am AEST<br>
+            Check back once these are locked in — we'll open tipping for them here.
+          </div>
         </div>
         <button type="submit" class="submit-btn">&#x1F4BE; Save my tips &#x2713;</button>
 
@@ -522,6 +537,7 @@
       <button class="md-tab" onclick="showWTW(2)" id="wtw-tab-2">Matchday 2</button>
       <button class="md-tab" onclick="showWTW(3)" id="wtw-tab-3">Matchday 3</button>
       <button class="md-tab" onclick="showWTW(4)" id="wtw-tab-4">Round of 32</button>
+      <button class="md-tab" onclick="showWTW(5)" id="wtw-tab-5">Round of 16</button>
     </div>
 
     <div id="wtw-panel-1" style="display:none" class="wtw-panel">
@@ -538,6 +554,9 @@
     </div>
     <div id="wtw-panel-4" class="wtw-panel" style="display:none">
       <div id="wtw-content-4"></div>
+    </div>
+    <div id="wtw-panel-5" class="wtw-panel" style="display:none">
+      <div id="wtw-content-5"></div>
     </div>
 
 
@@ -714,7 +733,15 @@
     {day:'Sat 4 Jul', id:'r16',teams:'🇨🇴 Colombia vs 🇬🇭 Ghana',                   date:'4 Jul · 11:30am AEST', ko:'2026-07-04T01:30:00Z'},
   ];
 
-  const ALL_MATCHES = [...MD1, ...MD2, ...MD3, ...MD4];
+  const MD5 = [
+    {day:'Sun 5 Jul', id:'s1', teams:'🇨🇦 Canada vs 🇲🇦 Morocco',  date:'5 Jul · 3:00am AEST', ko:'2026-07-04T17:00:00Z'},
+    {day:'Sun 5 Jul', id:'s2', teams:'🇵🇾 Paraguay vs 🇫🇷 France', date:'5 Jul · 7:00am AEST', ko:'2026-07-04T21:00:00Z'},
+    {day:'Mon 6 Jul', id:'s3', teams:'🇧🇷 Brazil vs 🇳🇴 Norway',   date:'6 Jul · 6:00am AEST', ko:'2026-07-05T20:00:00Z'},
+    {day:'Mon 6 Jul', id:'s4', teams:'🇲🇽 Mexico vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England', date:'6 Jul · 10:00am AEST', ko:'2026-07-06T00:00:00Z'},
+    {day:'Tue 7 Jul', id:'s5', teams:'🇺🇸 USA vs 🇧🇪 Belgium',     date:'7 Jul · 10:00am AEST', ko:'2026-07-07T00:00:00Z'},
+  ];
+
+  const ALL_MATCHES = [...MD1, ...MD2, ...MD3, ...MD4, ...MD5];
   const MATCH_DEADLINES = {};
   ALL_MATCHES.forEach(m => { MATCH_DEADLINES[m.id] = new Date(new Date(m.ko).getTime() - 30*60*1000); });
   // Lock tiebreaker inputs at first R16 kickoff - 30 mins
@@ -864,6 +891,7 @@
   buildMatchForms(MD2, 'form-matches-2');
   buildMatchForms(MD3, 'form-matches-3');
   buildKOMatchForms(MD4, 'form-matches-4');
+  buildKOMatchForms(MD5, 'form-matches-5');
 
   setInterval(() => {
     ALL_MATCHES.forEach(m => {
@@ -888,6 +916,7 @@
     2: new Date('2026-06-18T15:30:00Z'),
     3: new Date('2026-06-28T01:30:00Z'),  // Last MD3 game (Jordan vs Argentina)
     4: new Date('2026-07-04T01:00:00Z'),  // Last R32 game
+    5: new Date('2026-07-07T00:00:00Z'),  // Last confirmed R16 game (USA v Belgium) — extend once remaining 3 R16 fixtures are locked in
   };
 
 
@@ -905,10 +934,10 @@
   // Don't lock the whole form — per-match locking handles individual games
   var activeMD = 1;
   const now = new Date();
-  for (let md = 1; md <= 4; md++) {
+  for (let md = 1; md <= 5; md++) {
     if (now >= DEADLINES[md]) activeMD = md + 1;
   }
-  if (activeMD > 4) activeMD = 4;
+  if (activeMD > 5) activeMD = 5;
    // R16 is now live — always open here by default
 
   // Switch to the correct matchday tab after browser has painted
@@ -1087,22 +1116,23 @@
 
   // ── WHO TIPPED WHAT ───────────────────────────────────────
   // ⬇️ Set each matchday to true when you want tips to go live
-  var WTW_LIVE = { 1: true, 2: true, 3: true, 4: true };
+  var WTW_LIVE = { 1: true, 2: true, 3: true, 4: true, 5: true };
 
   var WTW_MATCHES = {
     1: MD1,
     2: MD2,
     3: MD3,
     4: MD4,
+    5: MD5,
   };
 
-  var wtwLoaded = {1: true, 2: true, 3: false, 4: false};
+  var wtwLoaded = {1: true, 2: true, 3: false, 4: false, 5: false};
 
   window.showWTW = function(n) {
     document.querySelectorAll('.wtw-panel').forEach(function(p,i) {
       p.style.display = i===n-1 ? 'block' : 'none';
     });
-    document.querySelectorAll('#wtw-tab-1,#wtw-tab-2,#wtw-tab-3,#wtw-tab-4').forEach(function(t,i) {
+    document.querySelectorAll('#wtw-tab-1,#wtw-tab-2,#wtw-tab-3,#wtw-tab-4,#wtw-tab-5').forEach(function(t,i) {
       t.classList.toggle('active', i===n-1);
     });
     if (!wtwLoaded[n]) loadWTW(n);
