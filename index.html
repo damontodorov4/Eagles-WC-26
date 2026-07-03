@@ -230,7 +230,7 @@
       <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
 
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbwfQzNI84y7QABUr7NPAInpdLIrBVztVjgD_iDUHBmAhopdUU8oHRJ2i6_-9MJgXIIXXA/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbynm9IS9YaTPR23ZELnL5Jn5PM_s2Ojq_jEzpumYR-oNiWzdQ_HEet7KwdOBOGO5vrOPw/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -1177,7 +1177,7 @@
     wtwLoaded[md] = true;
     el.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--muted);">Loading tips...</div>';
 
-    fetch('https://script.google.com/macros/s/AKfycbwfQzNI84y7QABUr7NPAInpdLIrBVztVjgD_iDUHBmAhopdUU8oHRJ2i6_-9MJgXIIXXA/exec?action=whoTipped&md='+md)
+    fetch('https://script.google.com/macros/s/AKfycbynm9IS9YaTPR23ZELnL5Jn5PM_s2Ojq_jEzpumYR-oNiWzdQ_HEet7KwdOBOGO5vrOPw/exec?action=whoTipped&md='+md)
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (!data || data.error || !data.tippers || data.tippers.length === 0) {
@@ -1229,7 +1229,7 @@
     var msg   = document.getElementById('restore-msg');
     if (!name || !phone) { msg.style.color = '#f87171'; msg.textContent = 'Please enter your name and phone.'; return; }
     msg.style.color = 'var(--muted)'; msg.textContent = 'Looking up your tips...';
-    var url = 'https://script.google.com/macros/s/AKfycbwfQzNI84y7QABUr7NPAInpdLIrBVztVjgD_iDUHBmAhopdUU8oHRJ2i6_-9MJgXIIXXA/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
+    var url = 'https://script.google.com/macros/s/AKfycbynm9IS9YaTPR23ZELnL5Jn5PM_s2Ojq_jEzpumYR-oNiWzdQ_HEet7KwdOBOGO5vrOPw/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -1277,7 +1277,7 @@
 
   // ── LEADERBOARD FETCH ─────────────────────────────────────
   function loadLeaderboard() {
-    fetch('https://script.google.com/macros/s/AKfycbwfQzNI84y7QABUr7NPAInpdLIrBVztVjgD_iDUHBmAhopdUU8oHRJ2i6_-9MJgXIIXXA/exec?action=leaderboard')
+    fetch('https://script.google.com/macros/s/AKfycbynm9IS9YaTPR23ZELnL5Jn5PM_s2Ojq_jEzpumYR-oNiWzdQ_HEet7KwdOBOGO5vrOPw/exec?action=leaderboard')
       .then(r => r.json())
       .then(data => {
         if (!data || !data.rows || data.rows.length === 0) {
