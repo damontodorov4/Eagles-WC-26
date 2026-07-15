@@ -230,7 +230,7 @@
       <div id="restore-msg" style="margin-top:8px;font-size:13px;color:var(--muted);"></div>
     </div>
 
-    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbxOkZrSOLRjW9LXg6FZCLTNgjCGcHX4E4p_kViGBTyWhS4ILtk7jbpgJugQRtWoGgEl5g/exec" method="POST" target="hidden-submit-frame">
+    <form id="tips-form" novalidate action="https://script.google.com/macros/s/AKfycbzpd9BpKr7vSrfw8W1WnEJZLZqTCWm3rMjIAiCz8v8jFZzdPoHCnq_mSi9PUrT38wnA8A/exec" method="POST" target="hidden-submit-frame">
       <input type="hidden" name="Timestamp" id="form-timestamp">
       <input type="hidden" name="_redirect" value="https://eagles-wc-26.vercel.app?submitted=1">
 
@@ -252,7 +252,8 @@
           <button type="button" class="form-md-tab" onclick="showFormMD(5)">Round of 16</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(6)">Quarter Finals</button>
           <button type="button" class="form-md-tab" onclick="showFormMD(7)">Semi Finals</button>
-          <button type="button" class="form-md-tab" onclick="showFormMD(8)">🏆 Tiebreaker</button>
+          <button type="button" class="form-md-tab" onclick="showFormMD(8)">3rd Place &amp; Final</button>
+          <button type="button" class="form-md-tab" onclick="showFormMD(9)">🏆 Tiebreaker</button>
         </div>
 
         <div class="form-md-panel" id="form-md-1">
@@ -293,6 +294,12 @@
         </div>
 
         <div class="form-md-panel" id="form-md-8">
+          <div class="matches-label">🏆 Third Place Playoff &amp; The Final — 19–20 July</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Knockout stage — pick the winner, how they win (90 mins / AET / Pens), and the score. 1pt for correct winner · +1pt correct how · +1pt correct 90-min score.</div>
+          <div id="form-matches-8"></div>
+        </div>
+
+        <div class="form-md-panel" id="form-md-9">
           <div class="matches-label">🏆 Tiebreaker — for splitting ties on the leaderboard</div>
           <div style="font-size:12px;color:var(--muted);margin-bottom:1rem;">Locks 30 minutes before the first Round of 16 kickoff. One entry per person — you can update it any time before then.</div>
           <div class="form-group">
@@ -547,13 +554,13 @@
         <div class="fixture-row" style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:6px;background:var(--bg);border:1px solid var(--border);margin-bottom:6px;"><span class="fixture-group-badge">SF</span><span class="fx-line" style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.05rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--text);flex:1;min-width:0;">🏴󠁧󠁢󠁥󠁮󠁧󠁿 England <span style="color:var(--muted);font-weight:400">vs</span> 🇦🇷 Argentina</span><span class="fx-meta" style="font-size:11px;color:var(--muted);white-space:nowrap;margin-left:auto;flex-shrink:0;"><span class="fixture-meta">Atlanta (Mercedes-Benz Stadium) · 5:00am AEST</span></div>
       </div>
       <div class="date-group"><div class="date-label">Sunday 19 July — Third Place Play-off</div>
-        <div class="fixture-row" style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:6px;background:var(--bg);border:1px solid var(--border);margin-bottom:6px;"><span class="fixture-group-badge">3RD</span><span class="fx-line" style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.05rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--text);flex:1;min-width:0;">Third Place Play-off — TBD <span style="color:var(--muted);font-weight:400">vs</span> TBD</span><span class="fx-meta" style="font-size:11px;color:var(--muted);white-space:nowrap;margin-left:auto;flex-shrink:0;"><span class="fixture-meta">Miami (Hard Rock Stadium) · 7:00am AEST</span></div>
+        <div class="fixture-row" style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:6px;background:var(--bg);border:1px solid var(--border);margin-bottom:6px;"><span class="fixture-group-badge">3RD</span><span class="fx-line" style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.05rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--text);flex:1;min-width:0;">🇫🇷 France <span style="color:var(--muted);font-weight:400">vs</span> 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England</span><span class="fx-meta" style="font-size:11px;color:var(--muted);white-space:nowrap;margin-left:auto;flex-shrink:0;"><span class="fixture-meta">Miami (Hard Rock Stadium) · 7:00am AEST</span></div>
       </div>
     </div>
 
     <div class="md-panel" id="md-panel-8">
       <div class="date-group"><div class="date-label">Monday 20 July 🏆</div>
-        <div class="fixture-row" style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:6px;background:var(--bg);border:1px solid var(--border);margin-bottom:6px;"><span class="fixture-group-badge" style="background:rgba(220,38,38,0.2);color:#DC2626;border-color:rgba(220,38,38,0.4)">FINAL</span><span class="fixture-teams" style="font-size:1.1rem">🏆 World Cup Final — TBD vs TBD</span><span class="fixture-meta">New York/NJ (MetLife Stadium) · 5:00am AEST</span></div>
+        <div class="fixture-row" style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:6px;background:var(--bg);border:1px solid var(--border);margin-bottom:6px;"><span class="fixture-group-badge" style="background:rgba(220,38,38,0.2);color:#DC2626;border-color:rgba(220,38,38,0.4)">FINAL</span><span class="fixture-teams" style="font-size:1.1rem">🏆 World Cup Final — 🇪🇸 Spain vs 🇦🇷 Argentina</span><span class="fixture-meta">New York/NJ (MetLife Stadium) · 5:00am AEST</span></div>
       </div>
       <div style="margin-top:1rem;padding:1rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;font-size:13px;color:var(--muted);line-height:1.6;">
         🏟️ <strong style="color:var(--text)">MetLife Stadium</strong> · East Rutherford, New Jersey<br>
@@ -576,6 +583,7 @@
       <button class="md-tab" onclick="showWTW(5)" id="wtw-tab-5">Round of 16</button>
       <button class="md-tab" onclick="showWTW(6)" id="wtw-tab-6">Quarter Finals</button>
       <button class="md-tab" onclick="showWTW(7)" id="wtw-tab-7">Semi Finals</button>
+      <button class="md-tab" onclick="showWTW(8)" id="wtw-tab-8">3rd Place &amp; Final</button>
     </div>
 
     <div id="wtw-panel-1" style="display:none" class="wtw-panel">
@@ -601,6 +609,9 @@
     </div>
     <div id="wtw-panel-7" class="wtw-panel" style="display:none">
       <div id="wtw-content-7"></div>
+    </div>
+    <div id="wtw-panel-8" class="wtw-panel" style="display:none">
+      <div id="wtw-content-8"></div>
     </div>
 
 
@@ -800,19 +811,27 @@
     {day:'Thu 16 Jul', id:'sf2', teams:'🏴󠁧󠁢󠁥󠁮󠁧󠁿 England vs 🇦🇷 Argentina', date:'16 Jul · 5:00am AEST', ko:'2026-07-15T19:00:00Z'},
   ];
 
-  const ALL_MATCHES = [...MD1, ...MD2, ...MD3, ...MD4, ...MD5, ...MD6, ...MD7];
+  const MD8 = [
+    {day:'Sun 19 Jul \u2014 Third Place Playoff', id:'tp1', teams:'🇫🇷 France vs 🏴󠁧󠁢󠁥󠁮󠁧󠁿 England', date:'19 Jul · 7:00am AEST', ko:'2026-07-18T21:00:00Z'},
+  ];
+
+  const MD9 = [
+    {day:'Mon 20 Jul \u2014 Final', id:'fn1', teams:'🇪🇸 Spain vs 🇦🇷 Argentina', date:'20 Jul · 5:00am AEST', ko:'2026-07-19T19:00:00Z'},
+  ];
+
+  const ALL_MATCHES = [...MD1, ...MD2, ...MD3, ...MD4, ...MD5, ...MD6, ...MD7, ...MD8, ...MD9];
   const MATCH_DEADLINES = {};
   ALL_MATCHES.forEach(m => { MATCH_DEADLINES[m.id] = new Date(new Date(m.ko).getTime() - 30*60*1000); });
   // Lock tiebreaker inputs at first R16 kickoff - 30 mins
   const TB_LOCK = new Date('2026-07-04T16:30:00Z');
   function checkTiebreakerLock() {
     if (new Date() >= TB_LOCK) {
-      document.querySelectorAll('#form-md-8 input').forEach(el => {
+      document.querySelectorAll('#form-md-9 input').forEach(el => {
         el.disabled = true;
         el.style.cursor = 'not-allowed';
         el.style.opacity = '0.5';
       });
-      var lbl = document.querySelector('#form-md-8 .matches-label');
+      var lbl = document.querySelector('#form-md-9 .matches-label');
       if (lbl && !lbl.dataset.locked) {
         lbl.dataset.locked = '1';
         lbl.innerHTML += ' <span style="font-size:0.75rem;color:var(--accent);font-weight:400;">🔒 Locked</span>';
@@ -856,6 +875,16 @@
     });
   }
 
+  function roundLabelFor(id) {
+    if (/^r\d+$/.test(id))  return 'R32';
+    if (/^s\d+$/.test(id))  return 'R16';
+    if (/^q\d+$/.test(id))  return 'QF';
+    if (/^sf\d+$/.test(id)) return 'SF';
+    if (/^tp\d+$/.test(id)) return '3RD';
+    if (/^fn\d+$/.test(id)) return 'FINAL';
+    return '';
+  }
+
   function buildKOMatchForms(matches, containerId) {
     const el = document.getElementById(containerId);
     if (!el) return;
@@ -873,7 +902,7 @@
       const da = locked ? 'disabled' : '';
       el.innerHTML += '<div class="match-block" id="block-'+m.id+'" style="'+(locked?'opacity:0.45;':'')+'">'
         +'<div class="match-header"><div class="match-teams">'+m.teams+lockedBadge+'</div>'
-        +'<div class="match-date">R32 · '+m.date+'</div></div>'
+        +'<div class="match-date">'+roundLabelFor(m.id)+' · '+m.date+'</div></div>'
         +'<div class="match-inputs">'
 
         // Row 1 — Who wins?
@@ -953,6 +982,8 @@
   buildKOMatchForms(MD5, 'form-matches-5');
   buildKOMatchForms(MD6, 'form-matches-6');
   buildKOMatchForms(MD7, 'form-matches-7');
+  buildKOMatchForms(MD8, 'form-matches-8');
+  buildKOMatchForms(MD9, 'form-matches-8');
 
   setInterval(() => {
     ALL_MATCHES.forEach(m => {
@@ -980,6 +1011,7 @@
     5: new Date('2026-07-07T20:00:00Z'),  // Last R16 game (Switzerland v Colombia)
     6: new Date('2026-07-12T01:00:00Z'),  // Last QF game (Argentina v Switzerland)
     7: new Date('2026-07-15T19:00:00Z'),  // Last SF game (England v Argentina)
+    8: new Date('2026-07-19T19:00:00Z'),  // Last game of the combined tab: The Final (Spain v Argentina)
   };
 
 
@@ -997,11 +1029,11 @@
   // Don't lock the whole form — per-match locking handles individual games
   var activeMD = 1;
   const now = new Date();
-  for (let md = 1; md <= 7; md++) {
+  for (let md = 1; md <= 8; md++) {
     if (now >= DEADLINES[md]) activeMD = md + 1;
   }
-  if (activeMD > 7) activeMD = 7;
-   // Semi Finals now open by default once QF wraps up
+  if (activeMD > 8) activeMD = 8;
+   // The Final is now open by default once the Third Place Playoff wraps up
 
   // Switch to the correct matchday tab after browser has painted
   setTimeout(function() { showFormMD(activeMD); }, 0);
@@ -1179,7 +1211,7 @@
 
   // ── WHO TIPPED WHAT ───────────────────────────────────────
   // ⬇️ Set each matchday to true when you want tips to go live
-  var WTW_LIVE = { 1: true, 2: true, 3: true, 4: false, 5: false, 6: false, 7: false };
+  var WTW_LIVE = { 1: true, 2: true, 3: true, 4: false, 5: false, 6: false, 7: false, 8: false };
 
   var WTW_MATCHES = {
     1: MD1,
@@ -1189,15 +1221,16 @@
     5: MD5,
     6: MD6,
     7: MD7,
+    8: [...MD8, ...MD9],
   };
 
-  var wtwLoaded = {1: true, 2: true, 3: false, 4: false, 5: false, 6: false, 7: false};
+  var wtwLoaded = {1: true, 2: true, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false};
 
   window.showWTW = function(n) {
     document.querySelectorAll('.wtw-panel').forEach(function(p,i) {
       p.style.display = i===n-1 ? 'block' : 'none';
     });
-    document.querySelectorAll('#wtw-tab-1,#wtw-tab-2,#wtw-tab-3,#wtw-tab-4,#wtw-tab-5,#wtw-tab-6,#wtw-tab-7').forEach(function(t,i) {
+    document.querySelectorAll('#wtw-tab-1,#wtw-tab-2,#wtw-tab-3,#wtw-tab-4,#wtw-tab-5,#wtw-tab-6,#wtw-tab-7,#wtw-tab-8').forEach(function(t,i) {
       t.classList.toggle('active', i===n-1);
     });
     if (!wtwLoaded[n]) loadWTW(n);
@@ -1212,7 +1245,7 @@
     wtwLoaded[md] = true;
     el.innerHTML = '<div style="padding:1rem;text-align:center;color:var(--muted);">Loading tips...</div>';
 
-    fetch('https://script.google.com/macros/s/AKfycbxOkZrSOLRjW9LXg6FZCLTNgjCGcHX4E4p_kViGBTyWhS4ILtk7jbpgJugQRtWoGgEl5g/exec?action=whoTipped&md='+md)
+    fetch('https://script.google.com/macros/s/AKfycbzpd9BpKr7vSrfw8W1WnEJZLZqTCWm3rMjIAiCz8v8jFZzdPoHCnq_mSi9PUrT38wnA8A/exec?action=whoTipped&md='+md)
       .then(function(r) { return r.json(); })
       .then(function(data) {
         if (!data || data.error || !data.tippers || data.tippers.length === 0) {
@@ -1264,7 +1297,7 @@
     var msg   = document.getElementById('restore-msg');
     if (!name || !phone) { msg.style.color = '#f87171'; msg.textContent = 'Please enter your name and phone.'; return; }
     msg.style.color = 'var(--muted)'; msg.textContent = 'Looking up your tips...';
-    var url = 'https://script.google.com/macros/s/AKfycbxOkZrSOLRjW9LXg6FZCLTNgjCGcHX4E4p_kViGBTyWhS4ILtk7jbpgJugQRtWoGgEl5g/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
+    var url = 'https://script.google.com/macros/s/AKfycbzpd9BpKr7vSrfw8W1WnEJZLZqTCWm3rMjIAiCz8v8jFZzdPoHCnq_mSi9PUrT38wnA8A/exec?action=restore&name=' + encodeURIComponent(name) + '&phone=' + encodeURIComponent(phone);
     fetch(url)
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -1312,7 +1345,7 @@
 
   // ── LEADERBOARD FETCH ─────────────────────────────────────
   function loadLeaderboard() {
-    fetch('https://script.google.com/macros/s/AKfycbxOkZrSOLRjW9LXg6FZCLTNgjCGcHX4E4p_kViGBTyWhS4ILtk7jbpgJugQRtWoGgEl5g/exec?action=leaderboard')
+    fetch('https://script.google.com/macros/s/AKfycbzpd9BpKr7vSrfw8W1WnEJZLZqTCWm3rMjIAiCz8v8jFZzdPoHCnq_mSi9PUrT38wnA8A/exec?action=leaderboard')
       .then(r => r.json())
       .then(data => {
         if (!data || !data.rows || data.rows.length === 0) {
